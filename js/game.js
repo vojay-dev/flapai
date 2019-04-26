@@ -7,6 +7,7 @@ var obstacles;
 var obstacleSpawnRate;
 var obstacleMinDistance;
 var obstacleMax;
+var obstacleSpeed;
 
 function setup() {
   canvasWidth = 1800;
@@ -21,6 +22,7 @@ function setup() {
   obstacleSpawnRate = 5;
   obstacleMinDistance = 300;
   obstacleMax = 5;
+  obstacleSpeed = 5;
 }
 
 function draw() {
@@ -46,7 +48,7 @@ function spawnObstacles() {
     var distance = obstacles.length > 0 ? canvasWidth - _.last(obstacles).x - 100 : obstacleMinDistance;
 
     if (distance >= obstacleMinDistance) {
-      obstacles.push(new Obstacle(canvasWidth, 100, canvasHeight, 300, 200));
+      obstacles.push(new Obstacle(canvasWidth, 100, canvasHeight, 300, 200, obstacleSpeed));
     }
   }
 }

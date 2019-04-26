@@ -1,6 +1,6 @@
 class Obstacle {
 
-    constructor(initX, width, height, holeY, holeHeight) {
+    constructor(initX, width, height, holeY, holeHeight, speed) {
       this.x = initX;
 
       this.width = width;
@@ -8,10 +8,11 @@ class Obstacle {
 
       this.holeY = holeY;
       this.holeHeight = holeHeight;
+      this.speed = speed;
     }
 
     update() {
-      this.x -= 5;
+      this.x -= this.speed;
 
       this.draw()
     }
