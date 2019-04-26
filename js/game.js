@@ -9,6 +9,10 @@ var obstacleMinDistance;
 var obstacleMax;
 var obstacleSpeed;
 
+var scoreFlash;
+var scoreFlashGreen;
+var scoreFlashSize;
+
 function setup() {
   canvasWidth = 1800;
   canvasHeight = 800;
@@ -23,6 +27,10 @@ function setup() {
   obstacleMinDistance = 300;
   obstacleMax = 5;
   obstacleSpeed = 5;
+
+  scoreFlash = true;
+  scoreFlashGreen = 0;
+  scoreFlashSize = 0;
 }
 
 function draw() {
@@ -50,9 +58,12 @@ function keyPressed() {
   // space (see http://keycode.info/)
   if (keyCode === 32) {
     player.jump();
-    player.score += 1;
+    updateScoreAndLevel
+  ();
   }
 }
+
+level += 1;
 
 function checkCollision() {
   return obstacles.some(obstacle => {
@@ -97,8 +108,39 @@ function isVisible(obstacle) {
   return obstacle.x + obstacle.width >= 0;
 }
 
+function updateScoreAndLevel() {
+  player.score += 1;
+  scoreFlash = false;
+
+  if (player.score % 10 === 0) {
+    obstacleSpawnRate += 1;
+    obstacleMinDistance -= 20;
+    obstacleMax += 1;
+  }
+}
+
 function drawScore() {
-  fill(0, 0, 0);
-  textSize(32);
-  text('score: ' + player.score, 10, 30);
+  if (!player.dead) {
+    if (player.score % 10 === 0 && scoreFlash === false) {
+      scoreFlashGreen = 255;
+      scoreFlashSize = 100;
+      scoreFlash = true;
+    }
+
+    scoreFlashGreen -= 2;
+    scoreFlashGreen = constrain(scoreFlashGreen, 0, 255);
+
+    scoreFlashSize -= 2;
+    scoreFlashSize = constrain(scoreFlashSize, 32, 100);
+
+    fill(0, scoreFlashGreen, 0);
+    textSize(scoreFlashSize);
+    textAlign(LEFT, TOP);
+    text('score: ' + player.score, 10, 10);
+  } else {
+    fill(0, 0, 0);
+    textSize(200);
+    textAlign(CENTER, CENTER);
+    text('final score: ' + player.score, canvasWidth / 2, canvasHeight / 2);
+  }
 }
