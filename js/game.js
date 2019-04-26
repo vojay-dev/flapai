@@ -14,13 +14,13 @@ var scoreFlashGreen;
 var scoreFlashSize;
 
 function setup() {
-  canvasWidth = 1800;
-  canvasHeight = 800;
+  canvasWidth = 1200;
+  canvasHeight = 600;
 
   frameRate(60);
   createCanvas(canvasWidth, canvasHeight);
 
-  player = new Player(150, 100, 50, 10, 700, 10, 0.5);
+  player = new Player(150, 100, 50, 10, 500, 10, 0.5);
   obstacles = [];
 
   obstacleSpawnRate = 5;
@@ -99,7 +99,7 @@ function spawnObstacles() {
     var distance = obstacles.length > 0 ? canvasWidth - _.last(obstacles).x - 100 : obstacleMinDistance;
 
     if (distance >= obstacleMinDistance) {
-      obstacles.push(new Obstacle(canvasWidth, 100, canvasHeight, 200, obstacleSpeed));
+      obstacles.push(new Obstacle(canvasWidth, 80, canvasHeight, 250, obstacleSpeed));
     }
   }
 }
@@ -139,7 +139,7 @@ function drawScore() {
     text('score: ' + player.score, 10, 10);
   } else {
     fill(0, 0, 0);
-    textSize(200);
+    textSize(150);
     textAlign(CENTER, CENTER);
     text('final score: ' + player.score, canvasWidth / 2, canvasHeight / 2);
   }
