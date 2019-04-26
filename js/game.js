@@ -27,7 +27,7 @@ function setup() {
 
 function draw() {
   // clears elements printed on canvas
-  background(0, 255, 255);
+  background(234, 252, 252);
 
   player.update();
   spawnObstacles();
@@ -37,8 +37,12 @@ function draw() {
 
   drawScore();
 
-  if(checkCollision()) {
+  if(player.dead) {
     noLoop();
+  }
+
+  if(checkCollision()) {
+    player.die();
   }
 }
 
@@ -94,6 +98,7 @@ function isVisible(obstacle) {
 }
 
 function drawScore() {
+  fill(0, 0, 0);
   textSize(32);
   text('score: ' + player.score, 10, 30);
 }

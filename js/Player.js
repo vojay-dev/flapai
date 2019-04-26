@@ -12,6 +12,8 @@ class Player {
     this.jumpSpeed = jumpSpeed;
     this.gravity = gravity;
 
+    this.dead = false;
+    this.color = color(255, 255, 255);
     this.score = 0;
   }
 
@@ -21,11 +23,17 @@ class Player {
   }
 
   draw() {
+    fill(this.color);
     rect(this.x, this.y, this.size, this.size);
   }
 
   jump() {
     this.y = max(this.y - this.jumpSpeed, this.minY);
+  }
+
+  die() {
+    this.dead = true;
+    this.color = color(209, 64, 64);
   }
 
 }

@@ -29,6 +29,8 @@ class Obstacle {
     }
 
     draw() {
+      fill(95, 244, 66);
+
       // upper part
       rect(this.x, 0, this.width, this.holeY);
 
