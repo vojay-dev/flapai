@@ -48,7 +48,7 @@ function spawnObstacles() {
     var distance = obstacles.length > 0 ? canvasWidth - _.last(obstacles).x - 100 : obstacleMinDistance;
 
     if (distance >= obstacleMinDistance) {
-      obstacles.push(new Obstacle(canvasWidth, 100, canvasHeight, 300, 200, obstacleSpeed));
+      obstacles.push(new Obstacle(canvasWidth, 100, canvasHeight, 200, obstacleSpeed));
     }
   }
 }

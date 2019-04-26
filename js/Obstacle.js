@@ -1,14 +1,25 @@
 class Obstacle {
 
-    constructor(initX, width, height, holeY, holeHeight, speed) {
+    constructor(initX, width, height, holeHeight, speed) {
       this.x = initX;
 
       this.width = width;
       this.height = height;
 
-      this.holeY = holeY;
       this.holeHeight = holeHeight;
       this.speed = speed;
+
+      this.holeY = this.randomHoleY();
+    }
+
+    randomHoleY() {
+      var paddingTop = 10;
+      var paddingBottom = 10;
+
+      var upperLimit = paddingTop + 1;
+      var lowerLimit = this.height - this.holeHeight - paddingBottom - 1;
+
+      return _.random(upperLimit, lowerLimit);
     }
 
     update() {
