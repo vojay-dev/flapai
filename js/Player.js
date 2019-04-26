@@ -13,7 +13,7 @@ class Player {
 
     this.gravity = gravity;
   }
-  
+
   update() {
     this.y = min(this.y + this.y / 2 * this.gravity + 2, this.maxY);
     this.draw();
