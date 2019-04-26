@@ -1,6 +1,6 @@
 class Player {
 
-  constructor(initX, initY, size, minY, maxY, jumpSpeed, gravity) {
+  constructor(initX, initY, size, minY, maxY, velocity, gravity) {
     this.x = initX;
     this.y = initY;
 
@@ -9,7 +9,7 @@ class Player {
     this.minY = minY;
     this.maxY = maxY;
 
-    this.jumpSpeed = jumpSpeed;
+    this.velocity = velocity;
     this.gravity = gravity;
 
     this.dead = false;
@@ -18,7 +18,12 @@ class Player {
   }
 
   update() {
-    this.y = min(this.y + this.y / 2 * this.gravity + 2, this.maxY);
+    this.y = this.y + this.velocity;
+    this.y = constrain(this.y, this.minY, this.maxY);
+
+    this.velocity += this.gravity;
+    this.velocity = constrain(this.velocity, -10, 10);
+
     this.draw();
   }
 
@@ -28,7 +33,7 @@ class Player {
   }
 
   jump() {
-    this.y = max(this.y - this.jumpSpeed, this.minY);
+    this.velocity = -10;
   }
 
   die() {

@@ -16,7 +16,7 @@ function setup() {
   frameRate(60);
   createCanvas(canvasWidth, canvasHeight);
 
-  player = new Player(150, 100, 50, 10, 700, 100, 0.02);
+  player = new Player(150, 100, 50, 10, 700, 10, 0.5);
   obstacles = [];
 
   obstacleSpawnRate = 5;
