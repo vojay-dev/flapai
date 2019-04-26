@@ -10,8 +10,9 @@ class Player {
     this.maxY = maxY;
 
     this.jumpSpeed = jumpSpeed;
-
     this.gravity = gravity;
+
+    this.score = 0;
   }
 
   update() {
