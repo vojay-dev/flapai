@@ -3,7 +3,7 @@ let canvasWidth = 1200;
 let canvasHeight = 600;
 
 let obstacleSpawnRate = 5;
-let obstacleMinDistance = 300;
+let obstacleMinDistance = 600;
 let obstacleMax = 5;
 let obstacleSpeed = 5;
 
@@ -24,13 +24,21 @@ let startTime;
 
 function preload() {
   bgImg = loadImage("img/bg.png");
+  player = new GeneticAlgorithm(20, 8, obstacles);
 }
 
 function setup() {
   frameRate(fps);
   createCanvas(canvasWidth, canvasHeight);
 
-  player = new Player(150, 100, 50, 10, 500, 10, 0.5);
+  // player is either a Player (human) or a GeneticAlgorithm (AI)
+  // player = new Player();
+  
+
+  if (player instanceof GeneticAlgorithm) {
+    player.createPopulation();
+  }
+
   obstacles = [];
 
   // reset points and difficulty
@@ -47,28 +55,49 @@ function draw() {
 
   drawBackground();
   
-  player.update();
+  if (player instanceof GeneticAlgorithm) {
+    player.update(obstacles);
+  } else {
+    player.update();
+  }
 
   spawnObstacles();
   _.forEach(obstacles, obstacle => obstacle.update());
   _.remove(obstacles, obstacle => !obstacle.isVisible());
 
   levelUp = updateScoreAndLevel();
-  drawScore();
 
-  if(player.dead) {
-    noLoop();
+  if (player instanceof Player) {
+    drawScore();
   }
 
-  if(checkCollision()) {
-    player.die();
+  if(!player.alive()) {
+    if (player instanceof GeneticAlgorithm) {
+      player.evolve();
+      player.iteration++;
+      setup();
+    } else {
+      noLoop();
+    }
+  }
+
+  if (player instanceof GeneticAlgorithm) {
+    player.population.forEach(player => {
+      if(checkCollision(player)) {
+        player.die();
+      }
+    });
+  } else {
+    if(checkCollision(player)) {
+      player.die();
+    }
   }
 }
 
 function keyPressed() {
   // space (see http://keycode.info/)
-  if (keyCode === 32) {
-    if(!player.dead) {
+  if (keyCode === 32 && player instanceof Player) {
+    if(player.alive()) {
       player.jump();
     } else {
       setup();
@@ -77,7 +106,7 @@ function keyPressed() {
   }
 }
 
-function checkCollision() {
+function checkCollision(player) {
   return obstacles.some(obstacle => obstacle.intersects(player));
 }
 
@@ -92,21 +121,36 @@ function spawnObstacles() {
 }
 
 function updateScoreAndLevel() {
-  let runTime = millis() - startTime;
-  let newScore = ceil(runTime / 1000);
+  let runtime = millis() - startTime;
+  let players = [];
 
-  if (player.score !== newScore) {
-    player.score = newScore;
-
-    if (player.score % 10 === 0) {
-      obstacleSpawnRate += 1;
-      obstacleMinDistance -= 20;
-      obstacleMax += 1;
-      level += 1;
-
-      return true;
-    }
+  if (player instanceof GeneticAlgorithm) {
+    players = player.population;
+  } else {
+    players = [player];
   }
+
+  players.forEach(player => {
+    if (player.alive()) {
+      player.lifetime = runtime;
+    }
+
+    let newScore = ceil(runtime / 1000);
+
+    if (player.score !== newScore) {
+      player.score = newScore;
+    }
+  });
+
+  // todo: this is fucked up
+  // if (players[0].score % 10 === 0) {
+  //   obstacleSpawnRate += 1;
+  //   obstacleMinDistance -= 20;
+  //   obstacleMax += 1;
+  //   level += 1;
+
+  //   return true;
+  // }
 
   return false;
 }
@@ -129,7 +173,7 @@ function drawBackground() {
 }
 
 function drawScore() {
-  if (!player.dead) {
+  if (player.alive()) {
     if (levelUp) {
       scoreFlashGreen = 255;
       scoreFlashSize = 100;

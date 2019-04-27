@@ -1,18 +1,20 @@
 class Player {
 
-  constructor(initX, initY, size, minY, maxY, velocity, gravity) {
-    this.x = initX;
-    this.y = initY;
+  constructor() {
+    this.x = 150;
+    this.y = 100;
 
-    this.size = size;
+    this.size = 50;
 
-    this.minY = minY;
-    this.maxY = maxY;
+    this.minY = 10;
+    this.maxY = 500;
 
-    this.velocity = velocity;
-    this.gravity = gravity;
+    this.velocity = 10;
+    this.gravity = 0.5;
 
+    this.lifetime = 0;
     this.dead = false;
+
     this.color = color(66, 116, 244);
     this.score = 0;
 
@@ -57,6 +59,10 @@ class Player {
 
   jump() {
     this.velocity = -10;
+  }
+
+  alive() {
+    return !this.dead;
   }
 
   die() {
