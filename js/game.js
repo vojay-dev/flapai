@@ -1,6 +1,6 @@
 // -- configuration --
 
-let frameRate = 60;
+let fps = 60;
 let canvasWidth = 1200;
 let canvasHeight = 600;
 
@@ -15,20 +15,36 @@ let scoreFlashSize = 0;
 
 // -------------------
 
+let bgImg;
+let bgImgX1 = 0;
+let bgImgX2 = canvasWidth;
+
 let player;
 let obstacles;
 
+function preload() {
+  bgImg = loadImage("img/bg.png");
+}
+
 function setup() {
-  frameRate(frameRate);
+  frameRate(fps);
   createCanvas(canvasWidth, canvasHeight);
 
   player = new Player(150, 100, 50, 10, 500, 10, 0.5);
   obstacles = [];
+
+  // reset difficulty
+  obstacleSpawnRate = 5;
+  obstacleMinDistance = 300;
+  obstacleMax = 5;
+  obstacleSpeed = 5;
 }
 
 function draw() {
   background(234, 252, 252);
 
+  drawBackground();
+  
   player.update();
 
   spawnObstacles();
@@ -84,6 +100,23 @@ function updateScoreAndLevel() {
   }
 }
 
+function drawBackground() {
+  image(bgImg, 0, 0, canvasWidth, canvasHeight);
+  image(bgImg, bgImgX1, 0, canvasWidth, canvasHeight);
+  image(bgImg, bgImgX2, 0, canvasWidth, canvasHeight);
+  
+  bgImgX1 -= 1;
+  bgImgX2 -= 1;
+  
+  if (bgImgX1 < -canvasWidth){
+    bgImgX1 = canvasWidth;
+  }
+
+  if (bgImgX2 < -canvasWidth){
+    bgImgX2 = canvasWidth;
+  }
+}
+
 function drawScore() {
   if (!player.dead) {
     if (player.score % 10 === 0 && scoreFlash === false) {
@@ -99,16 +132,19 @@ function drawScore() {
     scoreFlashSize = constrain(scoreFlashSize, 32, 100);
 
     fill(0, scoreFlashGreen, 0);
+    noStroke();
     textSize(scoreFlashSize);
     textAlign(LEFT, TOP);
     text('score: ' + player.score, 10, 10);
   } else {
     fill(0, 0, 0);
+    stroke(255, 255, 255);
     textSize(150);
     textAlign(CENTER, CENTER);
     text('final score: ' + player.score, canvasWidth / 2, canvasHeight / 2);
 
-    fill(91, 91, 91);
+    fill(255, 255, 255);
+    noStroke();
     textSize(40);
     textAlign(CENTER, CENTER);
     text('(press "space" to start again)', canvasWidth / 2, canvasHeight / 2 + 80);

@@ -6,41 +6,50 @@ class Obstacle {
       this.width = width;
       this.height = height;
 
-      this.holeHeight = holeHeight;
+      this.holeHeight = _.random(holeHeight - 10, holeHeight + 10);
       this.speed = speed;
 
       this.holeY = this.randomHoleY();
     }
 
     randomHoleY() {
-      var paddingTop = 10;
-      var paddingBottom = 10;
+      let paddingTop = 15;
+      let paddingBottom = 15;
 
-      var upperLimit = paddingTop + 1;
-      var lowerLimit = this.height - this.holeHeight - paddingBottom - 1;
+      let upperLimit = paddingTop + 1;
+      let lowerLimit = this.height - this.holeHeight - paddingBottom - 1;
 
       return _.random(upperLimit, lowerLimit);
     }
 
     update() {
       this.x -= this.speed;
-
       this.draw()
     }
 
     draw() {
-      fill(95, 244, 66);
-
       // upper part
+      fill(95, 244, 66);
+      stroke(255, 255, 255);
       rect(this.x, 0, this.width, this.holeY);
 
+      fill(44, 130, 54);
+      stroke(0, 0, 0);
+      rect(this.x, this.holeY - 15, this.width, 15);
+
       // lower part
+      fill(95, 244, 66);
+      stroke(255, 255, 255);
       rect(
         this.x,
         this.holeY + this.holeHeight,
         this.width,
         this.height - this.holeY - this.holeHeight
       );
+
+      fill(44, 130, 54);
+      stroke(0, 0, 0);
+      rect(this.x, this.holeY + this.holeHeight, this.width, 15);
     }
 
     isVisible() {
@@ -48,12 +57,12 @@ class Obstacle {
     }
 
     intersects(player) {
-      var upperIntersection = this.rectIntersect(
+      let upperIntersection = this.rectIntersect(
         player.x, player.y, player.size, player.size,
         this.x, 0, this.width, this.holeY
       );
   
-      var lowerIntersection = this.rectIntersect(
+      let lowerIntersection = this.rectIntersect(
         player.x, player.y, player.size, player.size,
         this.x, this.holeY + this.holeHeight, this.width, this.height - this.holeHeight
       );
