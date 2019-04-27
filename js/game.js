@@ -1,47 +1,39 @@
-var canvasWidth;
-var canvasHeight;
+// -- configuration --
 
-var player;
-var obstacles;
+let frameRate = 60;
+let canvasWidth = 1200;
+let canvasHeight = 600;
 
-var obstacleSpawnRate;
-var obstacleMinDistance;
-var obstacleMax;
-var obstacleSpeed;
+let obstacleSpawnRate = 5;
+let obstacleMinDistance = 300;
+let obstacleMax = 5;
+let obstacleSpeed = 5;
 
-var scoreFlash;
-var scoreFlashGreen;
-var scoreFlashSize;
+let scoreFlash = true;
+let scoreFlashGreen = 0;
+let scoreFlashSize = 0;
+
+// -------------------
+
+let player;
+let obstacles;
 
 function setup() {
-  canvasWidth = 1200;
-  canvasHeight = 600;
-
-  frameRate(60);
+  frameRate(frameRate);
   createCanvas(canvasWidth, canvasHeight);
 
   player = new Player(150, 100, 50, 10, 500, 10, 0.5);
   obstacles = [];
-
-  obstacleSpawnRate = 5;
-  obstacleMinDistance = 300;
-  obstacleMax = 5;
-  obstacleSpeed = 5;
-
-  scoreFlash = true;
-  scoreFlashGreen = 0;
-  scoreFlashSize = 0;
 }
 
 function draw() {
-  // clears elements printed on canvas
   background(234, 252, 252);
 
   player.update();
-  spawnObstacles();
 
+  spawnObstacles();
   _.forEach(obstacles, obstacle => obstacle.update());
-  _.remove(obstacles, obstacle => !isVisible(obstacle));
+  _.remove(obstacles, obstacle => !obstacle.isVisible());
 
   drawScore();
 
@@ -68,46 +60,17 @@ function keyPressed() {
 }
 
 function checkCollision() {
-  return obstacles.some(obstacle => {
-    var upperCollision = overlap(
-      player.x, player.y, player.size, player.size,
-      obstacle.x, 0, obstacle.width, obstacle.holeY
-    )
-
-    var lowerCollision = overlap(
-      player.x, player.y, player.size, player.size,
-      obstacle.x, obstacle.holeY + obstacle.holeHeight, obstacle.width, obstacle.height - obstacle.holeHeight
-    )
-
-    return upperCollision || lowerCollision;
-  });
-}
-
-function overlap(r1x, r1y, r1w, r1h, r2x, r2y, r2w, r2h) {
-  if (
-    r1x + r1w >= r2x &&    // r1 right edge past r2 left
-    r1x <= r2x + r2w &&    // r1 left edge past r2 right
-    r1y + r1h >= r2y &&    // r1 top edge past r2 bottom
-    r1y <= r2y + r2h       // r1 bottom edge past r2 top
-  ) {
-      return true;
-  }
-
-  return false;
+  return obstacles.some(obstacle => obstacle.intersects(player));
 }
 
 function spawnObstacles() {
   if (obstacles.length < obstacleMax && _.random(0, 99) < obstacleSpawnRate) {
-    var distance = obstacles.length > 0 ? canvasWidth - _.last(obstacles).x - 100 : obstacleMinDistance;
+    let distance = obstacles.length > 0 ? canvasWidth - _.last(obstacles).x - 100 : obstacleMinDistance;
 
     if (distance >= obstacleMinDistance) {
       obstacles.push(new Obstacle(canvasWidth, 80, canvasHeight, 250, obstacleSpeed));
     }
   }
-}
-
-function isVisible(obstacle) {
-  return obstacle.x + obstacle.width >= 0;
 }
 
 function updateScoreAndLevel() {
