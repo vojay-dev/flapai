@@ -1,13 +1,13 @@
 class Obstacle {
 
-    constructor(initX, width, height, holeHeight, speed) {
-      this.x = initX;
+    constructor() {
+      this.x = width;
 
-      this.width = width;
+      this.width = 80;
       this.height = height;
 
-      this.holeHeight = _.random(holeHeight - 10, holeHeight + 10);
-      this.speed = speed;
+      this.holeHeight = _.random(200, 280);
+      this.speed = 5;
 
       this.holeY = this.randomHoleY();
     }
