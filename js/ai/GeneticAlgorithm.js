@@ -18,8 +18,6 @@ class GeneticAlgorithm {
       topSize
     );
 
-    console.log("winners", winners)
-      
     for (let i = topSize; i < population.size; i++) {
       let parentA;
       let parentB;
@@ -53,6 +51,8 @@ class GeneticAlgorithm {
       
       population.players[i] = player;
     }
+
+    console.log(winners[0]);
     
     if (winners[0].lifetime > this.bestLifetime) {
       this.bestPopulation = this.iteration;
@@ -61,8 +61,6 @@ class GeneticAlgorithm {
     }
     
     population.players.sort((playerA, playerB) => playerA.index - playerB.index);
-
-    console.log("best lifetime", this.bestLifetime, "best population", this.bestPopulation, "best score", this.bestScore)
   }
 
 }
