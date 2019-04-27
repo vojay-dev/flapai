@@ -57,8 +57,13 @@ function draw() {
 function keyPressed() {
   // space (see http://keycode.info/)
   if (keyCode === 32) {
-    player.jump();
-    updateScoreAndLevel();
+    if(!player.dead) {
+      player.jump();
+      updateScoreAndLevel();
+    } else {
+      setup();
+      loop();
+    }
   }
 }
 
