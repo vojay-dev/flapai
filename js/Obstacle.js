@@ -30,16 +30,16 @@ class Obstacle {
     draw() {
       // upper part
       fill(95, 244, 66);
-      stroke(255, 255, 255);
+      stroke(26, 81, 43);
       rect(this.x, 0, this.width, this.holeY);
 
-      fill(44, 130, 54);
+      fill(244, 146, 66);
       stroke(0, 0, 0);
-      rect(this.x, this.holeY - 15, this.width, 15);
+      rect(this.x - 2, this.holeY - 20, this.width + 4, 20);
 
       // lower part
       fill(95, 244, 66);
-      stroke(255, 255, 255);
+      stroke(26, 81, 43);
       rect(
         this.x,
         this.holeY + this.holeHeight,
@@ -47,9 +47,9 @@ class Obstacle {
         this.height - this.holeY - this.holeHeight
       );
 
-      fill(44, 130, 54);
+      fill(244, 146, 66);
       stroke(0, 0, 0);
-      rect(this.x, this.holeY + this.holeHeight, this.width, 15);
+      rect(this.x - 2, this.holeY + this.holeHeight, this.width + 4, 20);
     }
 
     isVisible() {

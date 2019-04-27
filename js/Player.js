@@ -21,7 +21,7 @@ class Player {
 
   update() {
     this.waypoints.unshift({ x: this.x, y: this.y });
-    this.waypoints = this.waypoints.slice(0, 10);
+    this.waypoints = this.waypoints.slice(0, 25);
     
     this.y = this.y + this.velocity;
     this.y = constrain(this.y, this.minY, this.maxY);
@@ -33,13 +33,22 @@ class Player {
   }
 
   draw() {
-    fill(color(red(this.color), green(this.color), blue(this.color), 30));
-    noStroke();
-    _.forEach(this.waypoints, waypoint => rect(
-      waypoint.x,
-      waypoint.y,
-      this.size, this.size
-    ));
+    _.forEach(this.waypoints, (waypoint, index) => {
+      fill(color(
+        red(this.color),
+        green(this.color) + 5 * index,
+        blue(this.color),
+        100 - 5 * index
+      ));
+      noStroke();
+
+      rect(
+        waypoint.x - index * 3,
+        waypoint.y,
+        this.size,
+        this.size
+      );
+    });
 
     fill(this.color);
     stroke(255, 255, 255);

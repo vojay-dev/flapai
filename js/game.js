@@ -1,5 +1,3 @@
-// -- configuration --
-
 let fps = 60;
 let canvasWidth = 1200;
 let canvasHeight = 600;
@@ -9,11 +7,11 @@ let obstacleMinDistance = 300;
 let obstacleMax = 5;
 let obstacleSpeed = 5;
 
-let scoreFlash = true;
+let level = 1;
+let levelUp = false;
+
 let scoreFlashGreen = 0;
 let scoreFlashSize = 0;
-
-// -------------------
 
 let bgImg;
 let bgImgX1 = 0;
@@ -21,6 +19,8 @@ let bgImgX2 = canvasWidth;
 
 let player;
 let obstacles;
+
+let startTime;
 
 function preload() {
   bgImg = loadImage("img/bg.png");
@@ -33,7 +33,9 @@ function setup() {
   player = new Player(150, 100, 50, 10, 500, 10, 0.5);
   obstacles = [];
 
-  // reset difficulty
+  // reset points and difficulty
+  startTime = millis();
+  level = 1;
   obstacleSpawnRate = 5;
   obstacleMinDistance = 300;
   obstacleMax = 5;
@@ -51,6 +53,7 @@ function draw() {
   _.forEach(obstacles, obstacle => obstacle.update());
   _.remove(obstacles, obstacle => !obstacle.isVisible());
 
+  levelUp = updateScoreAndLevel();
   drawScore();
 
   if(player.dead) {
@@ -67,7 +70,6 @@ function keyPressed() {
   if (keyCode === 32) {
     if(!player.dead) {
       player.jump();
-      updateScoreAndLevel();
     } else {
       setup();
       loop();
@@ -90,14 +92,23 @@ function spawnObstacles() {
 }
 
 function updateScoreAndLevel() {
-  player.score += 1;
-  scoreFlash = false;
+  let runTime = millis() - startTime;
+  let newScore = ceil(runTime / 1000);
 
-  if (player.score % 10 === 0) {
-    obstacleSpawnRate += 1;
-    obstacleMinDistance -= 20;
-    obstacleMax += 1;
+  if (player.score !== newScore) {
+    player.score = newScore;
+
+    if (player.score % 10 === 0) {
+      obstacleSpawnRate += 1;
+      obstacleMinDistance -= 20;
+      obstacleMax += 1;
+      level += 1;
+
+      return true;
+    }
   }
+
+  return false;
 }
 
 function drawBackground() {
@@ -119,10 +130,9 @@ function drawBackground() {
 
 function drawScore() {
   if (!player.dead) {
-    if (player.score % 10 === 0 && scoreFlash === false) {
+    if (levelUp) {
       scoreFlashGreen = 255;
       scoreFlashSize = 100;
-      scoreFlash = true;
     }
 
     scoreFlashGreen -= 2;
@@ -133,9 +143,14 @@ function drawScore() {
 
     fill(0, scoreFlashGreen, 0);
     noStroke();
+
     textSize(scoreFlashSize);
     textAlign(LEFT, TOP);
-    text('score: ' + player.score, 10, 10);
+    text('score: ' + player.score, 10, 25);
+
+    textSize(16);
+    textAlign(LEFT, TOP);
+    text('level: ' + level, 10, 10);
   } else {
     fill(0, 0, 0);
     stroke(255, 255, 255);
