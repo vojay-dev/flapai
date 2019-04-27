@@ -12,7 +12,9 @@ class Player {
     this.velocity = 10;
     this.gravity = 0.5;
 
+    this.birthtime = millis();
     this.lifetime = 0;
+    
     this.dead = false;
 
     this.color = color(66, 116, 244);
@@ -30,6 +32,10 @@ class Player {
 
     this.velocity += this.gravity;
     this.velocity = constrain(this.velocity, -10, 10);
+
+    if (!this.dead) {
+      this.lifetime = millis() - this.birthtime;
+    }
 
     this.draw();
   }

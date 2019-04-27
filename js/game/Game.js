@@ -3,8 +3,9 @@ class Game {
   constructor(aiEnabled) {
     this.aiEnabled = aiEnabled;
 
-    if (aiEnabled) {
-      this.ai = new GeneticAlgorithm(20, 8, obstacles)
+    if (this.aiEnabled) {
+      this.geneticAlgorithm = new GeneticAlgorithm();
+      this.population = new Population(10);
     }
   }
 
@@ -15,14 +16,22 @@ class Game {
 
   setup() {
     this.background = new Background(this.bgImg);
-    this.player = new Player();
+
+    if (!this.aiEnabled) {
+      this.player = new Player();
+    }
+    
     this.obstacles = new Obstacles();
   }
 
   update() {
     this.background.update();
-    this.player.update();
     this.obstacles.update();
+    this.aiEnabled ? this.updateAi() : this.updateHuman();
+  }
+
+  updateHuman() {
+    this.player.update();
 
     if(!this.player.alive()) {
       this.running = false;
@@ -30,6 +39,22 @@ class Game {
   
     if(this.obstacles.collision(this.player)) {
       this.player.die();
+    }
+  }
+
+  updateAi() {
+    this.population.update(this.obstacles);
+
+    this.population.players.forEach(player => {
+      if (this.obstacles.collision(player)) {
+        player.die();
+      }
+    });
+
+    if (!this.population.alive()) {
+      this.geneticAlgorithm.evolve(this.population, 4);
+      this.geneticAlgorithm.iteration++;
+      this.setup();
     }
   }
 
@@ -41,4 +66,5 @@ class Game {
     }
   }
 
+  
 }

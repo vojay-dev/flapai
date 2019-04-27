@@ -1,7 +1,7 @@
 let game;
 
 function preload() {
-  game = new Game();
+  game = new Game(false);
   game.preload();
 }
 

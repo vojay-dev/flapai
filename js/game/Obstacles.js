@@ -30,4 +30,23 @@ class Obstacles {
     return this.obstacles.some(obstacle => obstacle.intersects(player));
   }
 
+  nearest(player) {
+    let nearestObstacle = null;
+
+    this.obstacles.forEach(obstacle => {
+      // the obstacle is in front of the player
+      if (obstacle.x >= player.x) {
+        if (nearestObstacle == null) {
+          nearestObstacle = obstacle;
+        }
+
+        if (obstacle.x < nearestObstacle.x) {
+          nearestObstacle = obstacle;
+        }
+      }
+    });
+
+    return nearestObstacle;
+  }
+
 }
