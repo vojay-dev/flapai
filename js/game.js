@@ -58,12 +58,9 @@ function keyPressed() {
   // space (see http://keycode.info/)
   if (keyCode === 32) {
     player.jump();
-    updateScoreAndLevel
-  ();
+    updateScoreAndLevel();
   }
 }
-
-level += 1;
 
 function checkCollision() {
   return obstacles.some(obstacle => {
@@ -142,5 +139,10 @@ function drawScore() {
     textSize(150);
     textAlign(CENTER, CENTER);
     text('final score: ' + player.score, canvasWidth / 2, canvasHeight / 2);
+
+    fill(91, 91, 91);
+    textSize(40);
+    textAlign(CENTER, CENTER);
+    text('(press "space" to start again)', canvasWidth / 2, canvasHeight / 2 + 80);
   }
 }
