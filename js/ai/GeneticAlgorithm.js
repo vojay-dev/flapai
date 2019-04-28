@@ -14,7 +14,7 @@ class GeneticAlgorithm {
   evolve(population, topSize) {
     let winners = this.geneticOperators.selection(
       population.players,
-      (playerA, playerB) => playerB.fitness - playerA.fitness,
+      (playerA, playerB) => playerB.lifetime - playerA.lifetime,
       topSize
     );
 
