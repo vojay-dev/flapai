@@ -15,8 +15,10 @@ class Display {
     fill(255, 255, 255);
     noStroke();
 
+    textStyle(BOLD);
     text('Generation: ' + geneticAlgorithm.iteration, 910, 40);
 
+    textStyle(NORMAL);
     text('Best generation: ' + geneticAlgorithm.bestPopulation, 910, 60);
     text('Best fitness: ' + _.floor(geneticAlgorithm.bestFitness, 4), 910, 80);
 
