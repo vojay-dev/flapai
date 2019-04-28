@@ -73,6 +73,9 @@ class Population {
       nearestObstacle.x
     ];
 
+    // only to show the latet input vars in the AI display
+    player.latestInputs = inputs;
+
     let outputs = player.network.activate(inputs);
 
     return outputs[0];

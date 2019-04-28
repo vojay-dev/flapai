@@ -36,6 +36,28 @@ class Display {
     });
 
     text('Press "d" to toggle this window', 910, 580);
+    
+    let samplePlayer = null;
+    let samplePlayerIndex = null;
+
+    for (let i = 0; i < population.players.length; i++) {
+      if (samplePlayer == null && population.players[i].alive()) {
+        samplePlayer = population.players[i];
+        samplePlayerIndex = i;
+        break;
+      }
+    }
+
+    if (samplePlayer != null && samplePlayer.latestInputs != null) {
+      textSize(12);
+      text('Latest NN inputs for player ' + samplePlayerIndex + ':', 910, 450);
+      text('Player Y: ' + samplePlayer.latestInputs[0], 920, 465);
+      text('Nearest obstacle distance X: ' + samplePlayer.latestInputs[1], 920, 480);
+      text('Nearest obstacle distance Y: ' + samplePlayer.latestInputs[2], 920, 495);
+      text('Nearest obstacle hole height: ' + samplePlayer.latestInputs[3], 920, 510);
+      text('Nearest obstacle hole Y: ' + samplePlayer.latestInputs[4], 920, 525);
+      text('Nearest obstacle X: ' + samplePlayer.latestInputs[5], 920, 540);
+    }
   }
 
   drawBox() {
