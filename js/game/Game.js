@@ -5,7 +5,7 @@ class Game {
 
     if (this.aiEnabled) {
       this.geneticAlgorithm = new GeneticAlgorithm();
-      this.population = new Population(15);
+      this.population = new Population(10);
     }
 
     this.flashAlpha = 0;

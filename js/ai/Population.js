@@ -6,7 +6,7 @@ class Population {
 
     for (let i = 0; i < this.size; i++) {
       let player = new Player(color(random(255),random(255),random(255)));
-      player.network = new synaptic.Architect.Perceptron(6, 20, 1);
+      player.network = new synaptic.Architect.Perceptron(2, 12, 1);
 
       this.players.push(player);
     }
@@ -62,15 +62,11 @@ class Population {
     let obstacleCenterY = nearestObstacle.holeY + nearestObstacle.holeHeight / 2;
     let playerCenterY = player.y + player.size / 2
 
-    let distanceY = abs(obstacleCenterY - playerCenterY);
+    let distanceY = obstacleCenterY - playerCenterY;
 
     let inputs = [
-      player.y,
-      distanceX,
-      distanceY,
-      nearestObstacle.holeHeight,
-      nearestObstacle.speed,
-      nearestObstacle.x
+      this.normalize(distanceX, 0, width) * 200,
+      this.normalize(distanceY, -height, height) * 600
     ];
 
     // only to show the latet input vars in the AI display
@@ -79,6 +75,11 @@ class Population {
     let outputs = player.network.activate(inputs);
 
     return outputs[0];
+  }
+
+  normalize(value, min, max) {
+    value = constrain(value, min, max);
+    return (value/max);
   }
 
 }

@@ -52,12 +52,8 @@ class Display {
     if (samplePlayer != null && samplePlayer.latestInputs != null) {
       textSize(12);
       text('Latest NN inputs for player ' + samplePlayerIndex + ':', 910, 450);
-      text('Player Y: ' + samplePlayer.latestInputs[0], 920, 465);
-      text('Nearest obstacle distance X: ' + samplePlayer.latestInputs[1], 920, 480);
-      text('Nearest obstacle distance Y: ' + samplePlayer.latestInputs[2], 920, 495);
-      text('Nearest obstacle hole height: ' + samplePlayer.latestInputs[3], 920, 510);
-      text('Nearest obstacle speed: ' + samplePlayer.latestInputs[4], 920, 525);
-      text('Nearest obstacle X: ' + samplePlayer.latestInputs[5], 920, 540);
+      text('Nearest obstacle distance X: ' + _.floor(samplePlayer.latestInputs[0], 4), 920, 480);
+      text('Nearest obstacle distance Y: ' + _.floor(samplePlayer.latestInputs[1], 4), 920, 495);
     }
   }
 

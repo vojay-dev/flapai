@@ -1,7 +1,10 @@
 let game;
 
 function preload() {
-  game = new Game(true);
+  let params = new URLSearchParams(location.search);
+  let aiEnabled = params != null && params.get('mode') == 'ai';
+
+  game = new Game(aiEnabled);
   game.preload();
 }
 

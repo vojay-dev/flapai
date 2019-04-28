@@ -32,7 +32,7 @@ class Obstacles {
 
     let max = this.max + score * 3;
     let spawnRate = this.spawnRate + score * 3;
-    let minDistance = this.minDistance - score * 3;
+    let minDistance = this.minDistance; // do not decrease to avoid impossible situations
 
     if (this.obstacles.length < max && _.random(1, 100) <= spawnRate) {
       let lastObstacle = _.last(this.obstacles);
