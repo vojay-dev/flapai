@@ -21,7 +21,16 @@ class Display {
     text('Best fitness: ' + _.floor(geneticAlgorithm.bestFitness, 4), 910, 80);
 
     population.players.forEach((player, i) => {
-      text('Player ' + player.index + ' fitness: ' + _.floor(player.fitness, 4), 910, 120 + i * 20);
+      fill(player.color);
+      stroke(80, 80, 80);
+
+      if (player.alive()) {
+        rect(910, 120 + i * 20 - 12, 10, 10);
+      }
+
+      fill(255, 255, 255);
+      noStroke();
+      text('Player ' + player.index + ' fitness: ' + _.floor(player.fitness, 4), 930, 120 + i * 20);
     });
 
     text('Press "d" to toggle this window', 910, 580);

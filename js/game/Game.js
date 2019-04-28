@@ -15,6 +15,8 @@ class Game {
   }
 
   setup() {
+    this.score = 0;
+    this.startTime = millis();
     this.background = new Background(this.bgImg);
 
     if (!this.aiEnabled) {
@@ -29,7 +31,18 @@ class Game {
   update() {
     this.background.update();
     this.obstacles.update();
+    this.updateScore();
     this.aiEnabled ? this.updateAi() : this.updateHuman();
+  }
+  
+  updateScore() {
+    this.score = ceil((millis() - this.startTime) / 1000);
+
+    textSize(24);
+    fill(0, 0, 0);
+    noStroke();
+
+    text('Score: ' + this.score, 10, 30);
   }
 
   updateHuman() {

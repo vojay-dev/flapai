@@ -1,6 +1,6 @@
 class Player {
 
-  constructor() {
+  constructor(color = color(66, 116, 244)) {
     this.x = 150;
     this.y = 100;
 
@@ -17,7 +17,7 @@ class Player {
     
     this.dead = false;
 
-    this.color = color(66, 116, 244);
+    this.color = color;
 
     this.waypoints = [];
   }

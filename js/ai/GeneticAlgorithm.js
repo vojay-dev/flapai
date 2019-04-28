@@ -43,7 +43,7 @@ class GeneticAlgorithm {
       offspring = this.geneticOperators.mutation(offspring);
       
       // create a new player using the neural network from the offspring
-      let player = new Player();
+      let player = new Player(color(random(255),random(255),random(255)));
 
       player.index = population.players[i].index;
       player.network = synaptic.Network.fromJSON(offspring);

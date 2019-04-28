@@ -5,7 +5,7 @@ class Population {
     this.players = [];
 
     for (let i = 0; i < this.size; i++) {
-      let player = new Player();
+      let player = new Player(color(random(255),random(255),random(255)));
 
       player.index = i;
       player.network = new synaptic.Architect.Perceptron(2, 20, 1);
