@@ -17,6 +17,18 @@ class GeneticAlgorithm {
       topSize
     );
 
+    // keep the top N players for the next population
+    for (let i = 0; i < topSize; i++) {
+      let player = population.players[i];
+      let network = player.network;
+
+      let newPlayer = new Player(color(random(255),random(255),random(255)));
+      newPlayer.network = network;
+
+      population.players[i] = newPlayer;
+    }
+
+    // fill the rest via genetic operations
     for (let i = topSize; i < population.size; i++) {
       let parentA;
       let parentB;
@@ -40,12 +52,10 @@ class GeneticAlgorithm {
       }
 
       // mutate the offspring
-      offspring = this.geneticOperators.mutation(offspring);
+      offspring = this.geneticOperators.mutation(offspring, this.mutateRate);
       
       // create a new player using the neural network from the offspring
       let player = new Player(color(random(255),random(255),random(255)));
-
-      player.index = population.players[i].index;
       player.network = synaptic.Network.fromJSON(offspring);
       
       population.players[i] = player;
@@ -55,8 +65,6 @@ class GeneticAlgorithm {
       this.bestPopulation = this.iteration;
       this.bestFitness = winners[0].fitness;
     }
-    
-    population.players.sort((playerA, playerB) => playerA.index - playerB.index);
   }
 
 }

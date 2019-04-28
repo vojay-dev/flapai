@@ -6,9 +6,7 @@ class Population {
 
     for (let i = 0; i < this.size; i++) {
       let player = new Player(color(random(255),random(255),random(255)));
-
-      player.index = i;
-      player.network = new synaptic.Architect.Perceptron(2, 20, 1);
+      player.network = new synaptic.Architect.Perceptron(7, 20, 1);
 
       this.players.push(player);
     }
@@ -40,7 +38,7 @@ class Population {
       distanceY = abs(obstacleCenterY - playerCenterY);
     }
 
-    player.fitness = player.lifetime / 100 - distanceY;
+    player.fitness = player.lifetime - distanceY;
   }
 
   alive() {
@@ -66,7 +64,16 @@ class Population {
 
     let distanceY = abs(obstacleCenterY - playerCenterY);
 
-    let inputs = [distanceX, distanceY];
+    let inputs = [
+      player.y,
+      distanceX,
+      distanceY,
+      nearestObstacle.holeHeight,
+      nearestObstacle.holeY,
+      nearestObstacle.width,
+      nearestObstacle.x
+    ];
+
     let outputs = player.network.activate(inputs);
 
     return outputs[0];

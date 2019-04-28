@@ -32,7 +32,7 @@ class Display {
 
       fill(255, 255, 255);
       noStroke();
-      text('Player ' + player.index + ' fitness: ' + _.floor(player.fitness, 4), 930, 120 + i * 20);
+      text('Player ' + i + ' fitness: ' + _.floor(player.fitness, 4), 930, 120 + i * 20);
     });
 
     text('Press "d" to toggle this window', 910, 580);

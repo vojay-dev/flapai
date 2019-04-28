@@ -23,20 +23,20 @@ class GeneticOperators {
     return _.random(0, 1) == 1 ? parentA : parentB;
   }
 
-  mutation(offspring) {
+  mutation(offspring, mutateRate) {
     for (let i = 0; i < offspring.neurons.length; i++) {
-      offspring.neurons[i]['bias'] = this.mutate(offspring.neurons[i]['bias']);
+      offspring.neurons[i]['bias'] = this.mutate(offspring.neurons[i]['bias'], mutateRate);
     }
     
     for (let i = 0; i < offspring.connections.length; i++) {
-      offspring.connections[i]['weight'] = this.mutate(offspring.connections[i]['weight']);
+      offspring.connections[i]['weight'] = this.mutate(offspring.connections[i]['weight'], mutateRate);
     }
     
     return offspring;
   }
 
-  mutate(gene) {
-    if (Math.random() < this.mutateRate) {
+  mutate(gene, mutateRate) {
+    if (Math.random() < mutateRate) {
       let mutateFactor = 1 + ((Math.random() - 0.5) * 3 + (Math.random() - 0.5));
       gene *= mutateFactor;
     }
