@@ -6,7 +6,7 @@ class Population {
 
     for (let i = 0; i < this.size; i++) {
       let player = new Player(color(random(255),random(255),random(255)));
-      player.network = new synaptic.Architect.Perceptron(7, 20, 1);
+      player.network = new synaptic.Architect.Perceptron(6, 20, 1);
 
       this.players.push(player);
     }
@@ -70,7 +70,6 @@ class Population {
       distanceY,
       nearestObstacle.holeHeight,
       nearestObstacle.holeY,
-      nearestObstacle.width,
       nearestObstacle.x
     ];
 

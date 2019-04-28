@@ -1,6 +1,6 @@
 class Player {
 
-  constructor(color = color(66, 116, 244)) {
+  constructor(color) {
     this.x = 150;
     this.y = 100;
 

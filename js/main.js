@@ -23,4 +23,9 @@ function draw() {
 
 function keyPressed() {
   game.keyPressed(keyCode);
+
+  if (!game.running && keyCode === 32) {
+    setup();
+    loop();
+  }
 }

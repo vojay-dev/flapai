@@ -11,16 +11,16 @@ class Game {
 
   preload() {
     this.bgImg = loadImage("img/bg.png");
-    this.running = true;
   }
 
   setup() {
     this.score = 0;
     this.startTime = millis();
+    this.running = true;
     this.background = new Background(this.bgImg);
 
     if (!this.aiEnabled) {
-      this.player = new Player();
+      this.player = new Player(color(66, 116, 244));
     } else {
       this.display = new Display();
     }
@@ -75,7 +75,7 @@ class Game {
   }
 
   keyPressed(keyCode) {
-    if (keyCode === 32) {
+    if (!this.aiEnabled && keyCode === 32) {
       if(this.player.alive()) {
         this.player.jump();
       }
