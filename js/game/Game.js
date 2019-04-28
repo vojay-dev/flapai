@@ -7,6 +7,9 @@ class Game {
       this.geneticAlgorithm = new GeneticAlgorithm();
       this.population = new Population(15);
     }
+
+    this.flashAlpha = 0;
+    this.asdf = 30;
   }
 
   preload() {
@@ -30,19 +33,34 @@ class Game {
 
   update() {
     this.background.update();
-    this.obstacles.update();
+    this.obstacles.update(this.score);
     this.updateScore();
+    this.flash();
+
     this.aiEnabled ? this.updateAi() : this.updateHuman();
+  }
+
+  flash() {
+    this.flashAlpha = this.obstacles.levelInc ? 100 : max(this.flashAlpha -= 10, 0);
+
+    fill(color(0, 255, 0, this.flashAlpha));
+    rect(0, 0, 1200, 600);
   }
   
   updateScore() {
+    this.asdf = this.obstacles.levelInc ? 100 : max(this.asdf -= 2, 30);
+
     this.score = ceil((millis() - this.startTime) / 1000);
 
-    textSize(24);
     fill(0, 0, 0);
     noStroke();
+    
+    textSize(24);
+    text('Score: ' + this.score, 10, 10);
 
-    text('Score: ' + this.score, 10, 30);
+    textAlign(LEFT, TOP);
+    textSize(this.asdf);
+    text('Level: ' + ceil((this.score + 1) / 10), 10, 40);
   }
 
   updateHuman() {

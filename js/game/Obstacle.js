@@ -1,15 +1,15 @@
 class Obstacle {
 
-    constructor() {
+    constructor(speed) {
       this.x = width;
 
       this.width = 80;
       this.height = height;
 
       this.holeHeight = _.random(200, 280);
-      this.speed = 5;
 
       this.holeY = this.randomHoleY();
+      this.speed = speed;
     }
 
     randomHoleY() {
