@@ -1,6 +1,14 @@
 class Display {
 
+  constructor() {
+    this.show = true;
+  }
+
   update(geneticAlgorithm, population) {
+    if (!this.show) {
+      return;
+    }
+
     this.drawBox();
 
     textSize(18);
@@ -15,6 +23,8 @@ class Display {
     population.players.forEach((player, i) => {
       text('Player ' + player.index + ' fitness: ' + _.floor(player.fitness, 4), 910, 120 + i * 20);
     });
+
+    text('Press "d" to toggle this window', 910, 580);
   }
 
   drawBox() {

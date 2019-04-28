@@ -67,6 +67,10 @@ class Game {
         this.player.jump();
       }
     }
+
+    if (this.aiEnabled && keyCode === 68) {
+      this.display.show = !this.display.show;
+    }
   }
 
 }
