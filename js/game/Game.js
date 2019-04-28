@@ -19,6 +19,8 @@ class Game {
 
     if (!this.aiEnabled) {
       this.player = new Player();
+    } else {
+      this.display = new Display();
     }
     
     this.obstacles = new Obstacles();
@@ -43,6 +45,7 @@ class Game {
   }
 
   updateAi() {
+    this.display.update(this.geneticAlgorithm, this.population);
     this.population.update(this.obstacles);
 
     this.population.players.forEach(player => {

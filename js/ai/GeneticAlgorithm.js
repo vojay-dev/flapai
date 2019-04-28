@@ -51,8 +51,6 @@ class GeneticAlgorithm {
       population.players[i] = player;
     }
 
-    console.log(winners[0].fitness);
-    
     if (winners[0].fitness > this.bestFitness) {
       this.bestPopulation = this.iteration;
       this.bestFitness = winners[0].fitness;
