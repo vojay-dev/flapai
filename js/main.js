@@ -10,7 +10,7 @@ function preload() {
 
 function setup() {
   frameRate(60);
-  createCanvas(1200, 600);
+  createCanvas(1200, 600).parent('game');
 
   game.setup();
 }

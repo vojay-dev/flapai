@@ -16,27 +16,31 @@
     <script src="js/ai/Population.js"></script>
 
     <script src="js/main.js"></script>
-    <style>
-      html, body {
-        height: 100%;
-      }
 
-      body {
-        margin: 0;
-        display: flex;
-
-        /* This centers our sketch horizontally. */
-        justify-content: center;
-
-        /* This centers our sketch vertically. */
-        align-items: center;
-      }
-
-      canvas {
-        border:1px solid #000000;
-      }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
+    <section class="section">
+      <div class="container">
+
+        <h1 class="title">
+          <span class="icon has-text-success">
+            <i class="fas fa-dove"></i>
+          </span> FlapAI
+        </h1>
+        <p class="subtitle">Flappy Bird meets genetic algorihtms and neural networks</p>
+        
+        <div class="box has-text-centered">
+          <a class="button is-info" href="?mode=human"><i class="fas fa-child"></i>&nbsp;Human Mode</a>
+          <a class="button is-success" href="?mode=ai"><i class="fas fa-lightbulb"></i>&nbsp;AI Mode</a>
+        </div>
+
+        <div class="has-text-centered">
+          <div id="game"></div>
+       </div>
+
+      </div>
+    </section>
   </body>
 </html>
