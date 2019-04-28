@@ -51,14 +51,14 @@ class Game {
     this.asdf = this.obstacles.levelInc ? 100 : max(this.asdf -= 2, 30);
 
     this.score = ceil((millis() - this.startTime) / 1000);
-
+    
     fill(0, 0, 0);
     noStroke();
+    textAlign(LEFT, TOP);
     
     textSize(24);
     text('Score: ' + this.score, 10, 10);
 
-    textAlign(LEFT, TOP);
     textSize(this.asdf);
     text('Level: ' + ceil((this.score + 1) / 10), 10, 40);
   }

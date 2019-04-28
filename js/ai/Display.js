@@ -14,6 +14,7 @@ class Display {
     textSize(18);
     fill(255, 255, 255);
     noStroke();
+    textAlign(LEFT, BASELINE);
 
     textStyle(BOLD);
     text('Generation: ' + geneticAlgorithm.iteration, 910, 40);
@@ -32,7 +33,7 @@ class Display {
 
       fill(255, 255, 255);
       noStroke();
-      text('Player ' + i + ' fitness: ' + _.floor(player.fitness, 4), 930, 120 + i * 20);
+      text('Player ' + i.toString().padStart(2, "0") + ' fitness: ' + _.floor(player.fitness, 4), 930, 120 + i * 20);
     });
 
     text('Press "d" to toggle this window', 910, 580);
@@ -55,7 +56,7 @@ class Display {
       text('Nearest obstacle distance X: ' + samplePlayer.latestInputs[1], 920, 480);
       text('Nearest obstacle distance Y: ' + samplePlayer.latestInputs[2], 920, 495);
       text('Nearest obstacle hole height: ' + samplePlayer.latestInputs[3], 920, 510);
-      text('Nearest obstacle hole Y: ' + samplePlayer.latestInputs[4], 920, 525);
+      text('Nearest obstacle speed: ' + samplePlayer.latestInputs[4], 920, 525);
       text('Nearest obstacle X: ' + samplePlayer.latestInputs[5], 920, 540);
     }
   }

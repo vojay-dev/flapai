@@ -69,7 +69,7 @@ class Population {
       distanceX,
       distanceY,
       nearestObstacle.holeHeight,
-      nearestObstacle.holeY,
+      nearestObstacle.speed,
       nearestObstacle.x
     ];
 
