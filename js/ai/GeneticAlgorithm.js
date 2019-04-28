@@ -5,8 +5,7 @@ class GeneticAlgorithm {
     this.mutateRate = 0.2;
 
     this.bestPopulation = 0;
-    this.bestLifetime = 0;
-    this.bestScore = 0;
+    this.bestFitness = 0;
 
     this.geneticOperators = new GeneticOperators();
   }
@@ -14,7 +13,7 @@ class GeneticAlgorithm {
   evolve(population, topSize) {
     let winners = this.geneticOperators.selection(
       population.players,
-      (playerA, playerB) => playerB.lifetime - playerA.lifetime,
+      (playerA, playerB) => playerB.fitness - playerA.fitness,
       topSize
     );
 
@@ -52,12 +51,11 @@ class GeneticAlgorithm {
       population.players[i] = player;
     }
 
-    console.log(winners[0]);
+    console.log(winners[0].fitness);
     
-    if (winners[0].lifetime > this.bestLifetime) {
+    if (winners[0].fitness > this.bestFitness) {
       this.bestPopulation = this.iteration;
-      this.bestLifetime = winners[0].lifetime;
-      this.bestScore = winners[0].score;
+      this.bestFitness = winners[0].fitness;
     }
     
     population.players.sort((playerA, playerB) => playerA.index - playerB.index);

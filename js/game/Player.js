@@ -18,7 +18,6 @@ class Player {
     this.dead = false;
 
     this.color = color(66, 116, 244);
-    this.score = 0;
 
     this.waypoints = [];
   }
