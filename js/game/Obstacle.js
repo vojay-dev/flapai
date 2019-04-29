@@ -30,25 +30,29 @@ class Obstacle {
 
     draw() {
       // upper part
-      fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
-      stroke(26, 81, 43);
-      rect(this.x, 0, this.width, this.holeY);
+      if (this.level < 10) {
+        fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
+        stroke(26, 81, 43);
+        rect(this.x, 0, this.width, this.holeY);
+      }
 
-      fill(244, 146, 66);
+      this.level < 10 ? fill(244, 146, 66) : fill(214, 17, 17);
       stroke(0, 0, 0);
       rect(this.x - 2, this.holeY - 20, this.width + 4, 20);
 
       // lower part
-      fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
-      stroke(26, 81, 43);
-      rect(
-        this.x,
-        this.holeY + this.holeHeight,
-        this.width,
-        this.height - this.holeY - this.holeHeight
-      );
+      if (this.level < 10) {
+        fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
+        stroke(26, 81, 43);
+        rect(
+          this.x,
+          this.holeY + this.holeHeight,
+          this.width,
+          this.height - this.holeY - this.holeHeight
+        );
+      }
 
-      fill(244, 146, 66);
+      this.level < 10 ? fill(244, 146, 66) : fill(214, 17, 17);
       stroke(0, 0, 0);
       rect(this.x - 2, this.holeY + this.holeHeight, this.width + 4, 20);
     }

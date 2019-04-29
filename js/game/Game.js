@@ -5,7 +5,7 @@ class Game {
 
     if (this.aiEnabled) {
       this.geneticAlgorithm = new GeneticAlgorithm();
-      this.population = new Population(10);
+      this.population = new Population(12);
     }
 
     this.flashAlpha = 0;
@@ -42,7 +42,7 @@ class Game {
   }
 
   flash(levelUp) {
-    this.flashAlpha = levelUp ? 100 : max(this.flashAlpha -= 10, 0);
+    this.flashAlpha = levelUp ? 100 : max(this.flashAlpha -= 2, 0);
 
     fill(color(0, 255, 0, this.flashAlpha));
     rect(0, 0, 1200, 600);
@@ -59,6 +59,9 @@ class Game {
     text('Score: ' + this.score(), 10, 10);
 
     textSize(this.scoreTextSize);
+    if (this.level == 10) {
+      fill(214, 17, 17);
+    }
     text('Level: ' + this.level, 10, 40);
   }
 

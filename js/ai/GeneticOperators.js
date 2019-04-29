@@ -37,7 +37,7 @@ class GeneticOperators {
 
   mutate(gene, mutateRate) {
     if (Math.random() < mutateRate) {
-      gene *= _.random(-0.4, 0.4);
+      gene *= _.random(-0.3, 0.3);
     }
     
     return gene;
