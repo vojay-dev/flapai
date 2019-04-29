@@ -1,6 +1,6 @@
 class Obstacle {
 
-    constructor(speed) {
+    constructor(speed, level) {
       this.x = width;
 
       this.width = 80;
@@ -10,6 +10,7 @@ class Obstacle {
 
       this.holeY = this.randomHoleY();
       this.speed = speed;
+      this.level = level;
     }
 
     randomHoleY() {
@@ -29,7 +30,7 @@ class Obstacle {
 
     draw() {
       // upper part
-      fill(95, 244, 66);
+      fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
       stroke(26, 81, 43);
       rect(this.x, 0, this.width, this.holeY);
 
@@ -38,7 +39,7 @@ class Obstacle {
       rect(this.x - 2, this.holeY - 20, this.width + 4, 20);
 
       // lower part
-      fill(95, 244, 66);
+      fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
       stroke(26, 81, 43);
       rect(
         this.x,

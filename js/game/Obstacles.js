@@ -1,45 +1,43 @@
 class Obstacles {
 
-  constructor() {
+  constructor(level = 1) {
     this.obstacles = [];
 
-    this.max = 5;
-    this.spawnRate = 5;
+    this.max = 4;
     this.minDistance = 500;
     this.speed = 5;
 
-    this.levelInc = false;
+    this.level = level;
   }
 
-  update(score) {
-    this.spawn(score);
+  update() {
+    this.spawn();
     this.obstacles.forEach(obstacle => obstacle.update());
 
     _.remove(this.obstacles, obstacle => !obstacle.isVisible());
   }
 
-  spawn(score) {
-    // increase difficulty with higher score
-    if (score > 0 && score % 10 === 0) {
-      if (!this.levelInc) {
-        this.obstacles.splice(0, this.obstacles.length);
-        this.speed++;
-        this.levelInc = true;
-      }
-    } else {
-      this.levelInc = false;
-    }
+  clear() {
+    this.obstacles.splice(0, this.obstacles.length);
+  }
+  
+  updateLevel(level) {
+    this.level = level;
+    this.clear();
+  }
 
-    let max = this.max + score * 3;
-    let spawnRate = this.spawnRate + score * 3;
-    let minDistance = this.minDistance; // do not decrease to avoid impossible situations
+  spawn() {
+    // adjust these values according to the level to change difficulty
+    let max = this.max;
+    let minDistance = this.minDistance + this.level * 20;
+    let speed = min(20, this.speed + this.level * 2);
 
-    if (this.obstacles.length < max && _.random(1, 100) <= spawnRate) {
+    if (this.obstacles.length < max) {
       let lastObstacle = _.last(this.obstacles);
-      let distance = lastObstacle != null ? width - lastObstacle.x - lastObstacle.width : minDistance;
+      let spawn = lastObstacle == null ? true : width - lastObstacle.x - lastObstacle.width >= minDistance;
 
-      if (distance >= minDistance) {
-        this.obstacles.push(new Obstacle(this.speed));
+      if (spawn) {
+        this.obstacles.push(new Obstacle(speed, this.level));
       }
     }
   }

@@ -17,7 +17,6 @@ class Game {
   }
 
   setup() {
-    this.score = 0;
     this.startTime = millis();
     this.running = true;
     this.background = new Background(this.bgImg);
@@ -32,35 +31,54 @@ class Game {
   }
 
   update() {
+    let levelUp = this.updateLevel();
+
     this.background.update();
-    this.obstacles.update(this.score);
-    this.updateScore();
-    this.flash();
+    this.obstacles.update();
+    this.updateScore(levelUp);
+    this.flash(levelUp);
 
     this.aiEnabled ? this.updateAi() : this.updateHuman();
   }
 
-  flash() {
-    this.flashAlpha = this.obstacles.levelInc ? 100 : max(this.flashAlpha -= 10, 0);
+  flash(levelUp) {
+    this.flashAlpha = levelUp ? 100 : max(this.flashAlpha -= 10, 0);
 
     fill(color(0, 255, 0, this.flashAlpha));
     rect(0, 0, 1200, 600);
   }
   
-  updateScore() {
-    this.scoreTextSize = this.obstacles.levelInc ? 100 : max(this.scoreTextSize -= 2, 30);
+  updateScore(levelUp) {
+    this.scoreTextSize = levelUp ? 100 : max(this.scoreTextSize -= 2, 30);
 
-    this.score = ceil((millis() - this.startTime) / 1000);
-    
     fill(0, 0, 0);
     noStroke();
     textAlign(LEFT, TOP);
     
     textSize(24);
-    text('Score: ' + this.score, 10, 10);
+    text('Score: ' + this.score(), 10, 10);
 
     textSize(this.scoreTextSize);
-    text('Level: ' + ceil((this.score + 1) / 10), 10, 40);
+    text('Level: ' + this.level, 10, 40);
+  }
+
+  // increase score every second
+  score() {
+    return ceil((millis() - this.startTime) / 1000);
+  }
+
+  // increase level every 20 seconds (max: 10)
+  updateLevel() {
+    let level = min(10, ceil((this.score() + 1) / 10));
+
+    if (this.level != level) {
+      this.level = level;
+      this.obstacles.updateLevel(this.level);
+
+      return true;
+    }
+
+    return false;
   }
 
   updateHuman() {

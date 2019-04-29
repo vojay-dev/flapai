@@ -10,7 +10,7 @@ class Player {
     this.maxY = 500;
 
     this.velocity = 10;
-    this.gravity = 0.5;
+    this.gravity = 0.7;
 
     this.birthtime = millis();
     this.lifetime = 0;

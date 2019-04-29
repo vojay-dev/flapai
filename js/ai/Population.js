@@ -6,7 +6,7 @@ class Population {
 
     for (let i = 0; i < this.size; i++) {
       let player = new Player(color(random(255),random(255),random(255)));
-      player.network = new synaptic.Architect.Perceptron(3, 6, 1);
+      player.network = new synaptic.Architect.Perceptron(2, 8, 1);
 
       this.players.push(player);
     }
@@ -53,9 +53,11 @@ class Population {
 
     let i1 = obstacles.distanceX(player, obstaclesByDistance[0]);
     let i2 = obstacles.distanceY(player, obstaclesByDistance[0]);
-    let i3 = obstaclesByDistance.length >= 2 ? obstacles.distanceY(player, obstaclesByDistance[1]) : 0;
 
-    let inputs = [i1, i2, i3];
+    // the following input allows the AI to see the obstacle after the next obstacle
+    // let i3 = obstaclesByDistance.length >= 2 ? obstacles.distanceY(player, obstaclesByDistance[1]) : 0;
+
+    let inputs = [i1, i2];
 
     // only to show the latet input vars in the AI display
     player.latestInputs = inputs;
