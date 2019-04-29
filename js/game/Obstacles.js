@@ -49,22 +49,27 @@ class Obstacles {
   }
 
   nearest(player) {
-    let nearestObstacle = null;
+    return this.sortedByDistance(player)[0];
+  }
 
-    this.obstacles.forEach(obstacle => {
-      // the obstacle is in front of the player
-      if (obstacle.x >= player.x) {
-        if (nearestObstacle == null) {
-          nearestObstacle = obstacle;
-        }
+  sortedByDistance(player) {
+    return this.obstacles
+      .filter(obstacle => obstacle.x >= player.x) // only consider obstacles in front of player
+      .sort((a, b) => a.x - b.x); // sort ascending by x position
+  }
 
-        if (obstacle.x < nearestObstacle.x) {
-          nearestObstacle = obstacle;
-        }
-      }
-    });
+  distanceX(player, obstacle) {
+    let obstacleCenterX = obstacle.x + obstacle.width / 2;
+    let playerCenterX = player.x + player.size / 2;
 
-    return nearestObstacle;
+    return obstacleCenterX - playerCenterX;
+  }
+
+  distanceY(player, obstacle) {
+    let obstacleCenterY = obstacle.holeY + obstacle.holeHeight / 2;
+    let playerCenterY = player.y + player.size / 2
+
+    return obstacleCenterY - playerCenterY;
   }
 
 }
