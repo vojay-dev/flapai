@@ -29,16 +29,13 @@ class Population {
 
   updateFitness(player, obstacles) {
     let nearestObstacle = obstacles.nearest(player);
-    let distanceY = 0;
+    let absDistanceY = 0;
 
     if (nearestObstacle != null) {
-      let obstacleCenterY = nearestObstacle.holeY + nearestObstacle.holeHeight / 2;
-      let playerCenterY = player.y + player.size / 2
-
-      distanceY = abs(obstacleCenterY - playerCenterY);
+      absDistanceY = obstacles.distanceY(player, nearestObstacle);
     }
 
-    player.fitness = player.lifetime - distanceY;
+    player.fitness = player.lifetime - absDistanceY;
   }
 
   alive() {
