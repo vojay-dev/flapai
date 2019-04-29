@@ -9,7 +9,7 @@ class Game {
     }
 
     this.flashAlpha = 0;
-    this.asdf = 30;
+    this.scoreTextSize = 30;
   }
 
   preload() {
@@ -48,7 +48,7 @@ class Game {
   }
   
   updateScore() {
-    this.asdf = this.obstacles.levelInc ? 100 : max(this.asdf -= 2, 30);
+    this.scoreTextSize = this.obstacles.levelInc ? 100 : max(this.scoreTextSize -= 2, 30);
 
     this.score = ceil((millis() - this.startTime) / 1000);
     
@@ -59,7 +59,7 @@ class Game {
     textSize(24);
     text('Score: ' + this.score, 10, 10);
 
-    textSize(this.asdf);
+    textSize(this.scoreTextSize);
     text('Level: ' + ceil((this.score + 1) / 10), 10, 40);
   }
 
