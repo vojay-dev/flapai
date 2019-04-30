@@ -17,23 +17,60 @@ class Display {
     textAlign(LEFT, BASELINE);
 
     textStyle(BOLD);
-    text('Generation: ' + geneticAlgorithm.iteration, 910, 40);
+    text('Generation:', 910, 40);
+    text('Best generation:', 910, 60);
+    text('Best fitness:', 910, 80);
 
     textStyle(NORMAL);
-    text('Best generation: ' + geneticAlgorithm.bestPopulation, 910, 60);
-    text('Best fitness: ' + _.floor(geneticAlgorithm.bestFitness, 4), 910, 80);
+    text(geneticAlgorithm.iteration, 1070, 40);
+    text(geneticAlgorithm.bestPopulation, 1070, 60);
 
+    fill(84, 255, 0);
+    text(_.ceil(geneticAlgorithm.bestFitness), 1070, 80);
+
+    textStyle(BOLD);
+    fill(255, 255, 255);
+    text('Population:', 910, 110);
+    textStyle(NORMAL);
+
+    textSize(12);
+    text('Color coding:', 920, 130);
+
+    fill(244, 229, 65);
+    text('cross winner', 1000, 130);
+
+    fill(66, 229, 244);
+    text('cross best', 1000, 140);
+
+    fill(84, 255, 0);
+    text('best', 1080, 130);
+
+    fill(252, 127, 255);
+    text('random winner', 1080, 140);
+
+    textSize(18);
     population.players.forEach((player, i) => {
       fill(player.color);
       stroke(80, 80, 80);
 
       if (player.alive()) {
-        rect(910, 120 + i * 20 - 12, 10, 10);
+        rect(910, 170 + i * 20 - 12, 10, 10);
       }
 
-      fill(255, 255, 255);
+      console.log(player.operation)
       noStroke();
-      text('Player ' + i.toString().padStart(2, "0") + ' fitness: ' + _.floor(player.fitness, 4), 930, 120 + i * 20);
+      switch (player.operation) {
+        case "best": fill(84, 255, 0); break;
+        case "crossover-best": fill(66, 229, 244); break;
+        case "crossover-winner": fill(244, 229, 65); break;
+        case "random-winner": fill(252, 127, 255); break;
+        default: fill(255, 255, 255); break;
+      }
+
+      text('Bird ' + i.toString().padStart(2, "0") + ' fitness:', 930, 170 + i * 20);
+
+      fill(255, 255, 255);
+      text(_.floor(player.fitness, 2), 1060, 170 + i * 20);
     });
 
     textSize(14);
@@ -53,7 +90,7 @@ class Display {
 
     if (samplePlayer != null && samplePlayer.latestInputs != null) {
       textSize(12);
-      text('Latest NN inputs for player ' + samplePlayerIndex + ':', 910, 460);
+      text('Latest NN inputs for bird ' + samplePlayerIndex + ':', 910, 460);
 
       for (let i = 0; i < samplePlayer.latestInputs.length; i++) {
         let value = _.floor(samplePlayer.latestInputs[i], 4);

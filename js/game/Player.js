@@ -6,7 +6,7 @@ class Player {
 
     this.size = 50;
 
-    this.minY = 10;
+    this.minY = 20;
     this.maxY = height;
 
     this.velocity = 10;
@@ -62,6 +62,8 @@ class Player {
     fill(this.color);
     stroke(255, 255, 255);
     rect(this.x, this.y, this.size, this.size);
+
+    image(Player.img, this.x, this.y, this.size, this.size);
   }
 
   jump() {

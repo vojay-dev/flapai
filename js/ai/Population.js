@@ -1,6 +1,6 @@
 class Population {
 
-  constructor(size) {
+  constructor(size, birdImg = null) {
     this.size = size;
     this.players = [];
 

@@ -25,6 +25,9 @@ class GeneticAlgorithm {
       let newPlayer = new Player(color(random(255),random(255),random(255)));
       newPlayer.network = network;
 
+      // only for debugging
+      newPlayer.operation = "best";
+
       population.players[i] = newPlayer;
     }
 
@@ -33,22 +36,28 @@ class GeneticAlgorithm {
       let parentA;
       let parentB;
       let offspring;
-        
+
+      // only for debugging
+      let operation;
+
       if (i == topSize) {
         // crossover of two best winners
         parentA = winners[0].network.toJSON();
         parentB = winners[1].network.toJSON();
 
         offspring = this.geneticOperators.crossover(parentA, parentB);
+        operation = "crossover-best";
       } else if (i < population.size - 2) {
         // crossover of two random winners
         parentA = _.sample(winners).network.toJSON();
         parentB = _.sample(winners).network.toJSON();
 
         offspring = this.geneticOperators.crossover(parentA, parentB);
+        operation = "crossover-winner"
       } else {
         // random winner
         offspring = _.sample(winners).network.toJSON();
+        operation = "random-winner"
       }
 
       // mutate the offspring
@@ -57,6 +66,7 @@ class GeneticAlgorithm {
       // create a new player using the neural network from the offspring
       let player = new Player(color(random(255),random(255),random(255)));
       player.network = synaptic.Network.fromJSON(offspring);
+      player.operation = operation;
       
       population.players[i] = player;
     }

@@ -14,7 +14,7 @@ class Obstacle {
     }
 
     randomHoleY() {
-      let paddingTop = 10;
+      let paddingTop = 30;
       let paddingBottom = 100;
 
       let upperLimit = paddingTop + 1;

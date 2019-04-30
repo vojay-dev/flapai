@@ -11,14 +11,17 @@ class Game {
     this.flashAlpha = 0;
     this.scoreTextSize = 30;
 
-    this.borderPadding = 10;
-    this.borderHeight = 10;
-
+    this.borderPadding = 20;
     this.render = true;
   }
 
   preload() {
+    Player.img = loadImage("img/bird.png");
+
     this.bgImg = loadImage("img/bg.png");
+    this.spikesImg = loadImage("img/spikes.png");
+    this.grassImg = loadImage("img/grass.png");
+
   }
 
   setup() {
@@ -51,10 +54,15 @@ class Game {
 
   drawBorder() {
     if (this.render) {
-      fill(color(242, 21, 21));
-      noStroke();
-      rect(0, height - this.borderPadding - this.borderHeight, width, this.borderHeight);
-      rect(0, this.borderPadding, width, this.borderHeight);
+      // draw top border
+      for (let i = 0; i < width / 40; i++) {
+        image(this.grassImg, 0 + i * 40, -20, 40, 40);
+      }
+
+      // draw bottom border
+      for (let i = 0; i < width / 40; i++) {
+        image(this.spikesImg, 0 + i * 40, height - 40, 40, 40);
+      }
     }
   }
 
@@ -136,11 +144,9 @@ class Game {
 
   isDead(player) {
     let collisionWithObstacle = this.obstacles.collision(player);
+    let collisionWithLowerBorder = player.y + player.size >= height - this.borderPadding;
 
-    let collisionWithUpperBorder = player.y <= this.borderPadding + this.borderHeight;
-    let collisionWithLowerBorder = player.y + player.size >= height - this.borderPadding - this.borderHeight;
-
-    return collisionWithObstacle || collisionWithUpperBorder || collisionWithLowerBorder;
+    return collisionWithObstacle || collisionWithLowerBorder;
   }
 
   keyPressed(keyCode) {
