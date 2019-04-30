@@ -5,11 +5,16 @@ class Game {
 
     if (this.aiEnabled) {
       this.geneticAlgorithm = new GeneticAlgorithm();
-      this.population = new Population(12);
+      this.population = new Population(16);
     }
 
     this.flashAlpha = 0;
     this.scoreTextSize = 30;
+
+    this.borderPadding = 10;
+    this.borderHeight = 10;
+
+    this.render = true;
   }
 
   preload() {
@@ -33,36 +38,52 @@ class Game {
   update() {
     let levelUp = this.updateLevel();
 
-    this.background.update();
-    this.obstacles.update();
+    this.background.update(this.render);
+    this.drawBorder();
+
+    this.obstacles.update(this.render);
     this.updateScore(levelUp);
     this.flash(levelUp);
+
 
     this.aiEnabled ? this.updateAi() : this.updateHuman();
   }
 
-  flash(levelUp) {
-    this.flashAlpha = levelUp ? 100 : max(this.flashAlpha -= 2, 0);
+  drawBorder() {
+    if (this.render) {
+      fill(color(242, 21, 21));
+      noStroke();
+      rect(0, height - this.borderPadding - this.borderHeight, width, this.borderHeight);
+      rect(0, this.borderPadding, width, this.borderHeight);
+    }
+  }
 
-    fill(color(0, 255, 0, this.flashAlpha));
-    rect(0, 0, 1200, 600);
+  flash(levelUp) {
+    if (this.render) {
+      this.flashAlpha = levelUp ? 100 : max(this.flashAlpha -= 2, 0);
+
+      fill(color(0, 255, 0, this.flashAlpha));
+      rect(0, 0, width, height);
+    }
   }
   
   updateScore(levelUp) {
-    this.scoreTextSize = levelUp ? 100 : max(this.scoreTextSize -= 2, 30);
+    if (this.render) {
+      this.scoreTextSize = levelUp ? 100 : max(this.scoreTextSize -= 2, 30);
 
-    fill(0, 0, 0);
-    noStroke();
-    textAlign(LEFT, TOP);
-    
-    textSize(24);
-    text('Score: ' + this.score(), 10, 10);
+      fill(0, 0, 0);
+      noStroke();
+      textAlign(LEFT, TOP);
 
-    textSize(this.scoreTextSize);
-    if (this.level == 10) {
-      fill(214, 17, 17);
+      textSize(24);
+      text('Score: ' + this.score(), 10, 30);
+
+      textSize(this.scoreTextSize);
+      if (this.level == 10) {
+        fill(214, 17, 17);
+      }
+      text('Level: ' + this.level, 10, 60);
     }
-    text('Level: ' + this.level, 10, 40);
   }
 
   // increase score every second
@@ -85,32 +106,41 @@ class Game {
   }
 
   updateHuman() {
-    this.player.update();
+    this.player.update(this.render);
 
     if(!this.player.alive()) {
       this.running = false;
     }
   
-    if(this.obstacles.collision(this.player)) {
+    if(this.isDead(this.player)) {
       this.player.die();
     }
   }
 
   updateAi() {
     this.display.update(this.geneticAlgorithm, this.population);
-    this.population.update(this.obstacles);
+    this.population.update(this);
 
     this.population.players.forEach(player => {
-      if (this.obstacles.collision(player)) {
+      if (this.isDead(player)) {
         player.die();
       }
     });
 
     if (!this.population.alive()) {
-      this.geneticAlgorithm.evolve(this.population, 4);
+      this.geneticAlgorithm.evolve(this.population, 6);
       this.geneticAlgorithm.iteration++;
       this.setup();
     }
+  }
+
+  isDead(player) {
+    let collisionWithObstacle = this.obstacles.collision(player);
+
+    let collisionWithUpperBorder = player.y <= this.borderPadding + this.borderHeight;
+    let collisionWithLowerBorder = player.y + player.size >= height - this.borderPadding - this.borderHeight;
+
+    return collisionWithObstacle || collisionWithUpperBorder || collisionWithLowerBorder;
   }
 
   keyPressed(keyCode) {
@@ -122,6 +152,16 @@ class Game {
 
     if (this.aiEnabled && keyCode === 68) {
       this.display.show = !this.display.show;
+    }
+
+    if (this.aiEnabled && keyCode === 82) {
+      this.render = !this.render;
+
+      if (!this.render) {
+        frameRate(99999);
+      } else {
+        frameRate(60);
+      }
     }
   }
 

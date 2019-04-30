@@ -7,10 +7,10 @@ class Player {
     this.size = 50;
 
     this.minY = 10;
-    this.maxY = 500;
+    this.maxY = height;
 
     this.velocity = 10;
-    this.gravity = 0.7;
+    this.gravity = 0.9;
 
     this.birthtime = millis();
     this.lifetime = 0;
@@ -22,9 +22,9 @@ class Player {
     this.waypoints = [];
   }
 
-  update() {
+  update(render = true) {
     this.waypoints.unshift({ x: this.x, y: this.y });
-    this.waypoints = this.waypoints.slice(0, 25);
+    this.waypoints = this.waypoints.slice(0, 50);
     
     this.y = this.y + this.velocity;
     this.y = constrain(this.y, this.minY, this.maxY);
@@ -36,7 +36,9 @@ class Player {
       this.lifetime = millis() - this.birthtime;
     }
 
-    this.draw();
+    if (render) {
+      this.draw();
+    }
   }
 
   draw() {
@@ -45,7 +47,7 @@ class Player {
         red(this.color),
         green(this.color) + 5 * index,
         blue(this.color),
-        100 - 5 * index
+        100 - 2 * index
       ));
       noStroke();
 

@@ -23,9 +23,12 @@ class Obstacle {
       return _.random(upperLimit, lowerLimit);
     }
 
-    update() {
+    update(render = true) {
       this.x -= this.speed;
-      this.draw()
+
+      if (render) {
+        this.draw();
+      }
     }
 
     draw() {

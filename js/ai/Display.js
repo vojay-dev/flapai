@@ -36,7 +36,9 @@ class Display {
       text('Player ' + i.toString().padStart(2, "0") + ' fitness: ' + _.floor(player.fitness, 4), 930, 120 + i * 20);
     });
 
-    text('Press "d" to toggle this window', 910, 580);
+    textSize(14);
+    text('Press "r" to toggle rendering', 910, 558);
+    text('Press "d" to toggle this window', 910, 575);
     
     let samplePlayer = null;
     let samplePlayerIndex = null;
@@ -51,9 +53,12 @@ class Display {
 
     if (samplePlayer != null && samplePlayer.latestInputs != null) {
       textSize(12);
-      text('Latest NN inputs for player ' + samplePlayerIndex + ':', 910, 450);
-      text('Nearest obstacle distance X: ' + _.floor(samplePlayer.latestInputs[0], 4), 920, 480);
-      text('Nearest obstacle distance Y: ' + _.floor(samplePlayer.latestInputs[1], 4), 920, 495);
+      text('Latest NN inputs for player ' + samplePlayerIndex + ':', 910, 460);
+
+      for (let i = 0; i < samplePlayer.latestInputs.length; i++) {
+        let value = _.floor(samplePlayer.latestInputs[i], 4);
+        text('Input ' + i + ': ' + value, 920, 480 + i * 13);
+      }
     }
   }
 

@@ -10,9 +10,9 @@ class Obstacles {
     this.level = level;
   }
 
-  update() {
+  update(render = true) {
     this.spawn();
-    this.obstacles.forEach(obstacle => obstacle.update());
+    this.obstacles.forEach(obstacle => obstacle.update(render));
 
     _.remove(this.obstacles, obstacle => !obstacle.isVisible());
   }

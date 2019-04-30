@@ -7,7 +7,11 @@ class Background {
     this.x = width;
   }
 
-  update() {
+  update(render = true) {
+    if (!render) {
+      return;
+    }
+
     image(this.img, this.x - width, 0, width, height);
     image(this.img, this.x, 0, width, height);
     
