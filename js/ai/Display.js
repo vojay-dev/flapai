@@ -90,8 +90,10 @@ class Display {
 
     if (samplePlayer != null && samplePlayer.latestInputs != null) {
       textSize(12);
+      textStyle(BOLD);
       text('Latest NN inputs for bird ' + samplePlayerIndex + ':', 910, 460);
 
+      textStyle(NORMAL);
       for (let i = 0; i < samplePlayer.latestInputs.length; i++) {
         let value = _.floor(samplePlayer.latestInputs[i], 4);
         text('Input ' + i + ': ' + value, 920, 480 + i * 13);
