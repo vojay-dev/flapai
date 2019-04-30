@@ -2,7 +2,7 @@ class GeneticAlgorithm {
 
   constructor() {
     this.iteration = 1;
-    this.mutateRate = 0.3;
+    this.mutateRate = 0.4;
 
     this.bestPopulation = 0;
     this.bestFitness = 0;

@@ -6,7 +6,7 @@ class Population {
 
     for (let i = 0; i < this.size; i++) {
       let player = new Player(color(random(255),random(255),random(255)));
-      player.network = new synaptic.Architect.Perceptron(4, 16, 1);
+      player.network = new synaptic.Architect.Perceptron(2, 8, 1);
 
       this.players.push(player);
     }
@@ -66,7 +66,7 @@ class Population {
     let i6 = this.normalize(player.y - (game.borderPadding + game.borderHeight), 0, height) * scaleFactor;
     let i7 = this.normalize((height - game.borderPadding - game.borderHeight) - (player.y + player.size), 0, height) * scaleFactor;
 
-    let inputs = [i1, i2, i6, i7];
+    let inputs = [i2, i1];
 
     // only to show the latet input vars in the AI display
     player.latestInputs = inputs;
