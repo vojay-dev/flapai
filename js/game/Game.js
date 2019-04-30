@@ -136,7 +136,7 @@ class Game {
     });
 
     if (!this.population.alive()) {
-      this.geneticAlgorithm.evolve(this.population, 3);
+      this.geneticAlgorithm.evolve(this.population, 6);
       this.geneticAlgorithm.iteration++;
       this.setup();
     }
