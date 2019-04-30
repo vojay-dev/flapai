@@ -34,7 +34,7 @@ class Obstacle {
     draw() {
       // upper part
       if (this.level < 10) {
-        fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
+        fill(color(83, 198, 93, 255 - (this.level - 1) * 30));
         stroke(26, 81, 43);
         rect(this.x, 0, this.width, this.holeY);
       }
@@ -45,7 +45,7 @@ class Obstacle {
 
       // lower part
       if (this.level < 10) {
-        fill(color(95, 244, 66, 255 - (this.level - 1) * 30));
+        fill(color(83, 198, 93, 255 - (this.level - 1) * 30));
         stroke(26, 81, 43);
         rect(
           this.x,
