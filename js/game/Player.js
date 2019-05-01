@@ -30,7 +30,7 @@ class Player {
     this.y = constrain(this.y, this.minY, this.maxY);
 
     this.velocity += this.gravity;
-    this.velocity = constrain(this.velocity, -10, 10);
+    this.velocity = constrain(this.velocity, -10, 12);
 
     if (!this.dead) {
       this.lifetime = millis() - this.birthtime;

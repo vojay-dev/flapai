@@ -6,7 +6,7 @@ class Population {
 
     for (let i = 0; i < this.size; i++) {
       let player = new Player(color(random(255),random(255),random(255)));
-      player.network = new synaptic.Architect.Perceptron(2, 8, 1);
+      player.network = new NeuralNetwork(4, 8, 2);
 
       this.players.push(player);
     }
@@ -18,12 +18,7 @@ class Population {
       .forEach(player => {
         player.update(game.render);
         this.updateFitness(player, game);
-
-        let output = this.activate(player, game)
-
-        if (output < 0.5) {
-          player.jump();
-        }
+        this.activate(player, game);
       });
   }
 
@@ -35,7 +30,7 @@ class Population {
       absDistanceY = game.obstacles.distanceY(player, nearestObstacle);
     }
 
-    player.fitness = player.lifetime - absDistanceY * 2;
+    player.fitness = player.lifetime - absDistanceY;
   }
 
   alive() {
@@ -47,35 +42,52 @@ class Population {
   activate(player, game) {
     let obstaclesByDistance = game.obstacles.sortedByDistance(player);
 
-    let scaleFactor = 200;
+    let scaleFactor = 100;
+
+    // player info
+    let i1 = this.normalize(player.x, 0, width) * scaleFactor;
+    let i2 = this.normalize(player.y, 0, height) * scaleFactor;
+    let i3 = this.normalize(player.velocity, -10, 12) * scaleFactor;
 
     // distance to next obstacle
     let obstacle0 = obstaclesByDistance[0];
-    let i1 = this.normalize(game.obstacles.distanceX(player, obstacle0), 0, width) * scaleFactor;
-    let i2 = this.normalize(game.obstacles.distanceY(player, obstacle0), -height / 2, height / 2) * scaleFactor;
+    let i4 = this.normalize(obstacle0.x, 0, width) * scaleFactor;
+    let i5 = this.normalize(obstacle0.holeY, 0, height) * scaleFactor;
+    let i6 = this.normalize(game.obstacles.distanceX(player, obstacle0), 0, width) * scaleFactor;
+    let i7 = this.normalize(game.obstacles.distanceY(player, obstacle0), -height / 2, height / 2) * scaleFactor;
     
     // distance to obstacle after next obstacle
-    let obstacle1 = obstaclesByDistance[0];
-    let i3 = this.normalize(obstacle1 != null ? game.obstacles.distanceX(player, obstacle1) : width, 0, width) * scaleFactor;
-    let i4 = this.normalize(obstacle1 != null ? game.obstacles.distanceY(player, obstacle1) : height / 2, -height / 2, height / 2) * scaleFactor;
+    let obstacle1 = obstaclesByDistance[1];
+    let i8 = this.normalize(obstacle1 != null ? obstacle1.x : width, 0, width) * scaleFactor;
+    let i9 = this.normalize(obstacle1 != null ? obstacle1.holeY : height, 0, height) * scaleFactor;
+    let i10 = this.normalize(obstacle1 != null ? game.obstacles.distanceX(player, obstacle1) : width, 0, width) * scaleFactor;
+    let i11 = this.normalize(obstacle1 != null ? game.obstacles.distanceY(player, obstacle1) : height / 2, -height / 2, height / 2) * scaleFactor;
 
     // current speed
-    let i5 = this.normalize(game.obstacles.speed, 2, 20) * scaleFactor;
+    let i12 = this.normalize(game.obstacles.calculateSpeed(), 2, 20) * scaleFactor;
 
     // distance to borders
-    let i6 = this.normalize(player.y - (game.borderPadding + game.borderHeight), 0, height) * scaleFactor;
-    let i7 = this.normalize((height - game.borderPadding - game.borderHeight) - (player.y + player.size), 0, height) * scaleFactor;
+    let i13 = this.normalize(player.y - game.borderPadding, 0, height) * scaleFactor;
+    let i14 = this.normalize((height - game.borderPadding) - (player.y + player.size), 0, height) * scaleFactor;
 
-    let inputs = [i2, i1];
+    // misc
+    let i15 = this.normalize((player.y + player.size / 2) - (height / 2), -height / 2, height / 2) * scaleFactor;
+
+    let inputs = [i2, i6, i7, i15];
 
     // only to show the latet input vars in the AI display
     player.latestInputs = inputs;
 
-    let outputs = player.network.activate(inputs);
-    return outputs[0];
+    if (player.network.predict(inputs)) {
+      player.jump();
+    }
   }
 
   normalize(value, min, max) {
+    if (value == null) {
+      value = max;
+    }
+
     return (value - min) / (max - min);
   }
 

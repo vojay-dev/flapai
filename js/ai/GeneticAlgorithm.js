@@ -2,79 +2,78 @@ class GeneticAlgorithm {
 
   constructor() {
     this.iteration = 1;
-    this.mutateRate = 0.4;
 
     this.bestPopulation = 0;
     this.bestFitness = 0;
+
+    this.topAverageFitness = 0;
 
     this.geneticOperators = new GeneticOperators();
   }
 
   evolve(population, topSize) {
-    let winners = this.geneticOperators.selection(
-      population.players,
-      (playerA, playerB) => playerB.fitness - playerA.fitness,
-      topSize
-    );
+    tf.tidy(() => {
+      let winners = this.geneticOperators.selection(
+        population.players,
+        (playerA, playerB) => playerB.fitness - playerA.fitness,
+        topSize
+      );
 
-    // keep the top N players for the next population
-    for (let i = 0; i < topSize; i++) {
-      let player = population.players[i];
-      let network = player.network;
+      // keep the top N players for the next population and mutate them a little
+      this.topAverageFitness = 0;
+      for (let i = 0; i < topSize; i++) {
+        let player = population.players[i];
+        this.topAverageFitness += player.fitness;
 
-      let newPlayer = new Player(color(random(255),random(255),random(255)));
-      newPlayer.network = network;
+        let network = player.network;
 
-      // only for debugging
-      newPlayer.operation = "best";
+        let newPlayer = new Player(color(random(255),random(255),random(255)));
+        newPlayer.network = network.copy();
+        newPlayer.network.mutate(0.3);
 
-      population.players[i] = newPlayer;
-    }
+        // only for debugging
+        newPlayer.operation = "best";
 
-    // fill the rest via genetic operations
-    for (let i = topSize; i < population.size; i++) {
-      let parentA;
-      let parentB;
-      let offspring;
+        population.players[i] = newPlayer;
+      }
+      this.topAverageFitness = this.topAverageFitness / topSize;
 
-      // only for debugging
-      let operation;
+      // fill the rest via crossover of winners and mutate the childs
+      for (let i = topSize; i < population.size; i++) {
+        let player = new Player(color(random(255),random(255),random(255)));
 
-      if (i == topSize) {
-        // crossover of two best winners
-        parentA = winners[0].network.toJSON();
-        parentB = winners[1].network.toJSON();
+        let winnerA = i == topSize ? winners[0] : _.sample(winners);
+        let winnerB = i == topSize ? winners[1] : _.sample(winners);
 
-        offspring = this.geneticOperators.crossover(parentA, parentB);
-        operation = "crossover-best";
-      } else if (i < population.size - 2) {
-        // crossover of two random winners
-        parentA = _.sample(winners).network.toJSON();
-        parentB = _.sample(winners).network.toJSON();
+        player.network = this.geneticOperators.crossover(winnerA.network, winnerB.network);
+        player.network.mutate(i == topSize ? 0.2 : 0.8);
 
-        offspring = this.geneticOperators.crossover(parentA, parentB);
-        operation = "crossover-winner"
-      } else {
-        // random winner
-        offspring = _.sample(winners).network.toJSON();
-        operation = "random-winner"
+        // only for debugging
+        player.operation = "crossover-winner";
+
+        population.players[i] = player;
       }
 
-      // mutate the offspring
-      offspring = this.geneticOperators.mutation(offspring, this.mutateRate);
-      
-      // create a new player using the neural network from the offspring
-      let player = new Player(color(random(255),random(255),random(255)));
-      player.network = synaptic.Network.fromJSON(offspring);
-      player.operation = operation;
-      
-      population.players[i] = player;
-    }
+      // every X generations, ensure that the winnerst have a minimum avg fitness
+      // if not, kill the population and start over
+      if (this.iteration % 10 == 0 && this.topAverageFitness < 3000) {
+        population.players.forEach(player => {
+          let inputUnits = player.network.inputUnits;
+          let hiddenUnits = player.network.hiddenUnits;
+          let outputUnits = player.network.outputUnits;
+          player.network.dispose();
 
-    if (winners[0].fitness > this.bestFitness) {
-      this.bestPopulation = this.iteration;
-      this.bestFitness = winners[0].fitness;
-    }
+          player.network = new NeuralNetwork(inputUnits, hiddenUnits, outputUnits);
+          player.network.mutate(0.2);
+          player.operation = "new";
+        });
+      }
+
+      if (winners[0].fitness > this.bestFitness) {
+        this.bestPopulation = this.iteration;
+        this.bestFitness = winners[0].fitness;
+      }
+    });
   }
 
 }

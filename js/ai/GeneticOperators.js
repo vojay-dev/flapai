@@ -10,37 +10,29 @@ class GeneticOperators {
     return sorted.slice(0, this.topSize);
   }
 
-  crossover(parentA, parentB) {
-    let cuttingPoint = _.random(0, parentA.neurons.length - 1);
-    
-    for (let i = cuttingPoint; i < parentA.neurons.length; i++) {
-      let biasFromParentA = parentA.neurons[i]['bias'];
+  crossover(networkA, networkB) {
+    return tf.tidy(() => {
+      let child = networkA.copy();
 
-      parentA.neurons[i]['bias'] = parentB.neurons[i]['bias'];
-      parentB.neurons[i]['bias'] = biasFromParentA;
-    }
+      let weightsA = networkA.model.getWeights();
+      let weightsB = networkB.model.getWeights();
+      let crossover = [];
 
-    return _.random(0, 1) == 1 ? parentA : parentB;
-  }
+      let crossoverPoint = ceil(weightsA.length / 2);
 
-  mutation(offspring, mutateRate) {
-    for (let i = 0; i < offspring.neurons.length; i++) {
-      offspring.neurons[i]['bias'] = this.mutate(offspring.neurons[i]['bias'], mutateRate);
-    }
-    
-    for (let i = 0; i < offspring.connections.length; i++) {
-      offspring.connections[i]['weight'] = this.mutate(offspring.connections[i]['weight'], mutateRate);
-    }
-    
-    return offspring;
-  }
+      // take one half from network A
+      for (let i = 0; i < crossoverPoint; i++) {
+        crossover[i] = weightsA[i].clone();
+      }
 
-  mutate(gene, mutateRate) {
-    if (Math.random() < mutateRate) {
-      gene *= _.random(-0.3, 0.3);
-    }
-    
-    return gene;
+      // take the other half from network B
+      for (let i = crossoverPoint; i < weightsA.length; i++) {
+        crossover[i] = weightsB[i].clone();
+      }
+
+      child.model.setWeights(crossover);
+      return child;
+    });
   }
 
 }

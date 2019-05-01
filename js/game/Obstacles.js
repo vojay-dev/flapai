@@ -5,7 +5,7 @@ class Obstacles {
 
     this.max = 4;
     this.minDistance = 500;
-    this.speed = 5;
+    this.speed = 9;
 
     this.level = level;
   }
@@ -26,11 +26,15 @@ class Obstacles {
     this.clear();
   }
 
+  calculateSpeed() {
+    return min(20, this.speed + this.level * 2);
+  }
+
   spawn() {
     // adjust these values according to the level to change difficulty
     let max = this.max;
     let minDistance = this.minDistance + this.level * 20;
-    let speed = min(20, this.speed + this.level * 2);
+    let speed = this.calculateSpeed();
 
     if (this.obstacles.length < max) {
       let lastObstacle = _.last(this.obstacles);

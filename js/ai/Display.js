@@ -36,17 +36,11 @@ class Display {
     textSize(12);
     text('Color coding:', 920, 130);
 
-    fill(244, 229, 65);
-    text('cross winner', 1000, 130);
-
-    fill(66, 229, 244);
-    text('cross best', 1000, 140);
-
-    fill(84, 255, 0);
-    text('best', 1080, 130);
-
-    fill(252, 127, 255);
-    text('random winner', 1080, 140);
+    fill(111, 242, 247);
+    text('best', 1000, 130);
+    
+    fill(232, 162, 249);
+    text('cross winner', 1000, 145);
 
     textSize(18);
     population.players.forEach((player, i) => {
@@ -57,13 +51,10 @@ class Display {
         rect(910, 170 + i * 20 - 12, 10, 10);
       }
 
-      console.log(player.operation)
       noStroke();
       switch (player.operation) {
-        case "best": fill(84, 255, 0); break;
-        case "crossover-best": fill(66, 229, 244); break;
-        case "crossover-winner": fill(244, 229, 65); break;
-        case "random-winner": fill(252, 127, 255); break;
+        case "best": fill(111, 242, 247); break;
+        case "crossover-winner": fill(232, 162, 249); break;
         default: fill(255, 255, 255); break;
       }
 
@@ -91,12 +82,12 @@ class Display {
     if (samplePlayer != null && samplePlayer.latestInputs != null) {
       textSize(12);
       textStyle(BOLD);
-      text('Latest NN inputs for bird ' + samplePlayerIndex + ':', 910, 460);
+      text('Latest NN inputs for bird ' + samplePlayerIndex + ':', 910, 475);
 
       textStyle(NORMAL);
       for (let i = 0; i < samplePlayer.latestInputs.length; i++) {
         let value = _.floor(samplePlayer.latestInputs[i], 4);
-        text('Input ' + i + ': ' + value, 920, 480 + i * 13);
+        text('Input ' + i + ': ' + value, 920, 495 + i * 13);
       }
     }
   }
