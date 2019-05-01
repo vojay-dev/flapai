@@ -6,7 +6,7 @@ class Obstacle {
       this.width = 80;
       this.height = height;
 
-      this.holeHeight = _.random(200, 280);
+      this.holeHeight = _.random(250, 300);
 
       this.holeY = this.randomHoleY();
       this.speed = speed;
