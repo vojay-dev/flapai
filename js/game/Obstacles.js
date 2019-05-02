@@ -27,7 +27,7 @@ class Obstacles {
   }
 
   calculateSpeed() {
-    return min(20, this.speed + this.level * 2);
+    return min(24, this.speed + this.level * 2);
   }
 
   spawn() {

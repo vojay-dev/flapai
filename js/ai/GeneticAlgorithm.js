@@ -45,8 +45,8 @@ class GeneticAlgorithm {
         let winnerA = i == topSize ? winners[0] : _.sample(winners);
         let winnerB = i == topSize ? winners[1] : _.sample(winners);
 
-        player.network = this.geneticOperators.crossover(winnerA.network, winnerB.network);
-        player.network.mutate(i == topSize ? 0.2 : 0.8);
+        player.network = this.geneticOperators.smartCrossover(winnerA, winnerB);
+        player.network.mutate(i == topSize ? 0.2 : 0.6);
 
         // only for debugging
         player.operation = "crossover-winner";

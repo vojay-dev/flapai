@@ -82,13 +82,20 @@ class Display {
     if (samplePlayer != null && samplePlayer.latestInputs != null) {
       textSize(12);
       textStyle(BOLD);
-      text('Latest NN inputs for bird ' + samplePlayerIndex + ':', 910, 475);
+      text('Normalized NN inputs for bird ' + samplePlayerIndex + ':', 910, 475);
 
       textStyle(NORMAL);
-      for (let i = 0; i < samplePlayer.latestInputs.length; i++) {
-        let value = _.floor(samplePlayer.latestInputs[i], 4);
-        text('Input ' + i + ': ' + value, 920, 495 + i * 13);
-      }
+
+      // for (let i = 0; i < samplePlayer.latestInputs.length; i++) {
+      //   let value = _.floor(samplePlayer.latestInputs[i], 4);
+      //   text('Input ' + i + ': ' + value, 920, 495 + i * 13);
+      // }
+
+      text('Player Y: ' + _.floor(samplePlayer.latestInputs[0], 4), 920, 495 + 0 * 13);
+      text('Distance obstacle Y: ' + _.floor(samplePlayer.latestInputs[1], 4), 920, 495 + 1 * 13);
+      text('Distance obstacle X: ' + _.floor(samplePlayer.latestInputs[2], 4), 920, 495 + 2 * 13);
+      text('Distance center Y: ' + _.floor(samplePlayer.latestInputs[3], 4), 920, 495 + 3 * 13);
+
     }
   }
 
