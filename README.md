@@ -1,9 +1,10 @@
 # FlapAI
 
-This project is for demo purposes and combines a Flappy Bird clone with a basic AI implementation.
+This is a learning project and combines a Flappy Bird clone with a basic AI implementation.
 
-The game is a clone of Flappy Bird using Processing (http://p5js.org/).
+The game is a clone of Flappy Bird based on Processing (http://p5js.org/).
 
-The AI combines Neural Networks using Synaptic (http://caza.la/synaptic) with a genetic algorithm to evolve populations of AI players using genetic operators.
+The AI combines Neural Networks using TensorFlow.js (https://www.tensorflow.org/js) with evolutionary algorithms to evolve populations of AI players using genetic operators.
 
 Try it yourself: https://prenomenon.github.io/flapai/
+Or learn about all the concepts and the implementation: https://prenomenon.github.io/flapai/doc.html
