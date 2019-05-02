@@ -1,9 +1,11 @@
 <html>
   <head>
+    <!-- dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
 
+    <!-- flapai -->
     <script src="js/game/Background.js"></script>
     <script src="js/game/Game.js"></script>
     <script src="js/game/Obstacle.js"></script>
@@ -18,41 +20,100 @@
 
     <script src="js/main.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
   </head>
+
   <body>
-    <section class="section">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#"><i class="fa fa-fw fa-crow"></i> FlapAI</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+    <div class="jumbotron jumbotron-fluid">
       <div class="container">
-
-        <h1 class="title">
-          <span class="icon has-text-success">
-            <i class="fas fa-dove"></i>
-          </span> FlapAI
-        </h1>
-        <p class="subtitle">Flappy Bird meets genetic algorihtms and neural networks</p>
-
-        <div class="columns">
-          <div class="column">
-            <div class="box has-text-centered" style="height: 100px; padding-top: 30px;">
-              <a class="button is-info" href="?mode=human"><i class="fas fa-child"></i>&nbsp;Human Mode</a>
-              <a class="button is-success" href="?mode=ai"><i class="fas fa-lightbulb"></i>&nbsp;AI Mode</a>
-              <a class="button is-dark" href="https://github.com/prenomenon/flapai" target="_blank" style="margin-left: 5px;"><i class="fab fa-github"></i>&nbsp;Github</a>
-            </div>
-          </div>
-          <div class="column">
-            <div class="box has-text-centered" style="height: 100px;">
-              Avoid to hit the <strong>ground</strong> and the <strong>pipes</strong>. Press <span class="tag is-info is-medium">space</span> to jump
-              and restart the game when your bird is dead. Or let the AI play for you ;).
-            </div>
-          </div>
-        </div>
-
-        <div class="has-text-centered">
-          <div id="game"></div>
-       </div>
-
+        <h1 class="display-4"><i class="fa fa-fw fa-crow"></i> FlapAI</h1>
+        <p class="lead">Flappy Bird meets <strong>genetic algorithms</strong>, <strong>neural networks</strong> and <strong>evolutionary algorithms</strong>.</p>
       </div>
-    </section>
+    </div>
+    <main role="main">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-md-3">
+
+          <div class="card">
+            <div class="card-body">
+              <div class="row p-2">
+                <p class="h5"><i class="fa fa-fw fa-cog"></i> Select mode</p>
+              </div>
+              <div class="row p-2">
+                <button type="button" onclick="window.location='?mode=human'" class="btn btn-outline-success" data-toggle="tooltip" data-placement="right" title="Press space to jump">
+                    <i class="fa fa-fw fa-user"></i> Human Mode
+                </button>
+              </div>
+              <div class="row p-2">
+                <button type="button" onclick="window.location='?mode=ai'" class="btn btn-outline-info">
+                    <i class="fa fa-fw fa-brain"></i> AI Mode
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-body">
+              <div class="row p-2">
+                <p class="h5"><i class="fa fa-fw fa-code"></i> Source</p>
+              </div>
+              <div class="row p-2">
+                <button type="button" onclick="window.open('https://github.com/prenomenon/flapai', '_blank');" class="btn btn-outline-secondary">
+                  <i class="fab fa-github"></i> Github
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-3">
+              <div class="card-body">
+                <div class="row p-2">
+                  <p class="h5"><i class="fa fa-fw fa-book"></i> Libraries</p>
+                </div>
+                <div class="row p-2">
+                  <div class="list-group list-group-flush" style="width: 80%;">
+                    <a href="https://p5js.org/" class="list-group-item list-group-item-action" target="_blank"><i class="fa fa-fw fa-paint-brush text-info"></i> p5.js</a>
+                    <a href="https://www.tensorflow.org/js" class="list-group-item list-group-item-action" target="_blank"><i class="fa fa-fw fa-project-diagram text-info"></i> TensorFlow.js</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div class="col-md-9">
+            <div id="game"></div>
+        </div>
+      </div>
+    </div>
+
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">© 2019 Volker Janz | Github: <a href="https://github.com/prenomenon/flapai" target="_blank">https://github.com/prenomenon/flapai</a></span>
+      </div>
+    </footer>
+
+    <!-- bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+      // enable tooltips everywhere
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
   </body>
 </html>
