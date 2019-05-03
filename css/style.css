@@ -48,3 +48,7 @@ code {
 .jumbotron {
   padding: 2em 2em;
 }
+
+.list-group-item-light {
+  background-color: #f8f9fa;
+}
