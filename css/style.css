@@ -4,8 +4,6 @@ html {
 }
 
 body {
-  padding-top: 3.5rem;
-
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
@@ -48,5 +46,5 @@ code {
 }
 
 .jumbotron {
-  padding: 1em 1em;
+  padding: 2em 2em;
 }
