@@ -37,8 +37,7 @@ class NeuralNetwork {
       let inputTensor = tf.tensor2d([inputs]);
       let outputTensor = this.model.predict(inputTensor);
 
-      let output = outputTensor.dataSync();
-      return output[0] > output[1];
+      return outputTensor.dataSync();
     });
   }
 

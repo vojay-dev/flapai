@@ -57,12 +57,14 @@ class Population {
       distanceCenterY
     ];
 
-    // only to show the latet input vars in the AI display
-    player.latestInputs = inputs;
-
-    if (player.network.predict(inputs)) {
+    let outputs = player.network.predict(inputs);
+    if (outputs[0] > outputs[1]) {
       player.jump();
     }
+
+    // only to show the latet input vars in the AI display
+    player.latestInputs = inputs;
+    player.latestOutputs = outputs;
   }
 
   normalize(value, min, max) {

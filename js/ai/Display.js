@@ -36,10 +36,10 @@ class Display {
     textSize(12);
     text('Color coding:', 920, 130);
 
-    fill(111, 242, 247);
+    fill(178, 242, 190);
     text('best', 1000, 130);
     
-    fill(232, 162, 249);
+    fill(242, 178, 230);
     text('cross winner', 1000, 145);
 
     textSize(18);
@@ -53,8 +53,8 @@ class Display {
 
       noStroke();
       switch (player.operation) {
-        case "best": fill(111, 242, 247); break;
-        case "crossover-winner": fill(232, 162, 249); break;
+        case "best": fill(178, 242, 190); break;
+        case "crossover-winner": fill(242, 178, 230); break;
         default: fill(255, 255, 255); break;
       }
 
@@ -65,8 +65,8 @@ class Display {
     });
 
     textSize(14);
-    text('Press "r" to toggle rendering', 910, 558);
-    text('Press "d" to toggle this window', 910, 575);
+    text('Press [r] to toggle rendering', 910, 564);
+    text('Press [d] to toggle this window', 910, 580);
     
     let samplePlayer = null;
     let samplePlayerIndex = null;
@@ -80,29 +80,46 @@ class Display {
     }
 
     if (samplePlayer != null && samplePlayer.latestInputs != null) {
-      textSize(12);
-      textStyle(BOLD);
-      text('Normalized NN inputs for bird ' + samplePlayerIndex + ':', 910, 475);
-
-      textStyle(NORMAL);
-
       // for (let i = 0; i < samplePlayer.latestInputs.length; i++) {
       //   let value = _.floor(samplePlayer.latestInputs[i], 4);
       //   text('Input ' + i + ': ' + value, 920, 495 + i * 13);
       // }
 
-      text('Player Y: ' + _.floor(samplePlayer.latestInputs[0], 4), 920, 495 + 0 * 13);
-      text('Distance obstacle Y: ' + _.floor(samplePlayer.latestInputs[1], 4), 920, 495 + 1 * 13);
-      text('Distance obstacle X: ' + _.floor(samplePlayer.latestInputs[2], 4), 920, 495 + 2 * 13);
-      text('Distance center Y: ' + _.floor(samplePlayer.latestInputs[3], 4), 920, 495 + 3 * 13);
+      fill(samplePlayer.color);
+      stroke(80, 80, 80);
 
+      let yStart = 470;
+      rect(910, yStart - 12, 10, 86);
+      
+      fill(255, 255, 255);
+      noStroke();
+
+      text('▶️ player Y:', 930, yStart + 0 * 13);
+      text('▶️ dist. obstacle Y:', 930, yStart + 1 * 13);
+      text('▶️ dist. obstacle X:', 930, yStart + 2 * 13);
+      text('▶️ dist. center Y:', 930, yStart + 3 * 13);
+
+      text('◀️ jump:', 930, yStart + 4 * 13 + 6);
+      text('◀️ not jump:', 930, yStart + 5 * 13 + 6);
+
+      text(_.floor(samplePlayer.latestInputs[0], 4), 1060, yStart + 0 * 13);
+      text(_.floor(samplePlayer.latestInputs[1], 4), 1060, yStart + 1 * 13);
+      text(_.floor(samplePlayer.latestInputs[2], 4), 1060, yStart + 2 * 13);
+      text(_.floor(samplePlayer.latestInputs[3], 4), 1060, yStart + 3 * 13);
+
+      text(_.floor(samplePlayer.latestOutputs[0], 4), 1060, yStart + 4 * 13 + 6);
+      text(_.floor(samplePlayer.latestOutputs[1], 4), 1060, yStart + 5 * 13 + 6);
     }
   }
 
   drawBox() {
-    fill(color(70, 70, 70, 230));
-    stroke(255, 255, 255);
-    rect(900, 10, 290, 580);
+    fill(color(70, 70, 70, 240));
+    noStroke();
+    //rect(900, 10, 290, 580);
+    rect(880, 0, width - 880, height);
+
+    fill(color(50, 50, 50, 255));
+    rect(870, 0, 10, height);
   }
 
 }

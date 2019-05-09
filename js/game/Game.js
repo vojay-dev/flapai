@@ -21,7 +21,6 @@ class Game {
     this.bgImg = loadImage("img/bg.png");
     this.spikesImg = loadImage("img/spikes.png");
     this.grassImg = loadImage("img/grass.png");
-
   }
 
   setup() {
@@ -47,7 +46,6 @@ class Game {
     this.obstacles.update(this.render);
     this.updateScore(levelUp);
     this.flash(levelUp);
-
 
     this.aiEnabled ? this.updateAi() : this.updateHuman();
   }
